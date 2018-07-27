@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>canvas的rotate中心点计算方法</title>
+</head>
+<body>
+	<canvas id="canvas" width="180" height="125" style="border: 1px solid #f00;"></canvas>
+
+	<script type="text/javascript">
+		;(function (window, document) {
+
+			var canvas = document.getElementById('canvas');
+			var canvasWidth = canvas.width;
+			var canvasHeight = canvas.height;
+    	var ctx = canvas.getContext('2d');
+    	var img = new Image();
+
+    	ctx.save();
+
+    	img.src = 'http://www.zymseo.com/images/logo.jpg';
+    	img.addEventListener('load', function () {
+    		ctx.translate(canvasWidth/2, canvasHeight/2);
+		    ctx.rotate(Math.PI*180/180); // 旋转的弧度 = Math.PI * 角度 / 180
+		    ctx.drawImage(img, -canvasWidth/4, -canvasHeight/4, 180/2, 125/2);
+			}, false);
+
+		})(this, document);
+	</script>
+</body>
+</html>
