@@ -9,12 +9,12 @@
     function extract (arr) {
         var newArr = [''];
         for (var i = 0; i < arr.length; i += 1) {
-            newArr = fn(newArr, arr[i]);
+            newArr = combine(newArr, arr[i]);
         }
         return newArr;
     }
 
-    function fn (left, right) {
+    function combine (left, right) {
         var arr = [];
         for (var i = 0; i < right.length; i += 1) {
             for (var j = 0; j < left.length; j += 1) {
