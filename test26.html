@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>requestAnimationFrame</title>
+	<style type="text/css">
+		.container {
+			width: 10px;
+			height: 30px;
+			background-color: red;
+		}
+	</style>
+</head>
+<body>
+	<div class="container" id="container"></div>
+
+	<script type="text/javascript">
+		;(function (window, document) {
+
+			var container = document.querySelector('#container');
+			var width = 10;
+
+			var requestAnFr = (function () {
+				return window.requestAnimationFrame ||
+					window.webkitRequestAnimationFrame ||
+          window.mozRequestAnimationFrame ||
+          function (callback) {
+            window.setTimeout(callback, 1000 / 60);
+         	};
+			})();
+
+			function animation () {
+				if (width >= 1000) {
+					container = null;
+					return;
+				}
+				width += 10;
+				container.style.width = width + 'px';
+				requestAnFr(animation);
+			}
+
+			animation();
+	
+		})(this, document);
+	</script>
+</body>
+</html>
