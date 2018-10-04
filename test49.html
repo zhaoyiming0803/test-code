@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="format-detection" content="telephone=no" />
+		<meta http-equiv="X-UA-Compatible" content="IE=11,IE=10,IE=9,IE=8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0" />
+		<title>Document</title>
+		<meta name="Keywords" content="" />
+		<meta name="Description" content="" />
+	</head>
+	<body>
+		<div id="app"></div>
+
+		<script type="text/javascript">
+			;(function (window, document) {
+				
+				var vnode = {
+					tag: 'div',
+					children: [
+						{
+							tag: 'div',
+							text: 123,
+							on: {
+								click: function () {
+									alert(123);
+								}
+							}
+						},
+						{
+							tag: 'div',
+							children: [
+								{
+									tag: 'span',
+									children: [
+										{
+											tag: 'a',
+											text: 456
+										}
+									]
+								}
+							]
+						}
+					]
+				};
+
+				function patch (vnode) {
+					var el = '#app';
+					var newNode = createElement(vnode.tag);
+					newNode.id = el.substr(1);
+
+					if (Array.isArray(vnode.children) && vnode.children.length) {
+						createChild(newNode, vnode.children);	
+					} else {
+						newNode.innerHTML = vnode.text;
+					}
+
+					var oldNode = document.querySelector(el);
+					var rootNode = document.body;
+					insertBefore(rootNode, newNode, oldNode);
+					removeChild(rootNode, oldNode);
+				}
+
+				function createChild (parent, vnodes) {
+					for (var i = 0, len = vnodes.length; i < len; i += 1) {
+						var node = createElement(vnodes[i].tag);
+						if (Array.isArray(vnodes[i].children) && vnodes[i].children.length) {
+							createChild(node, vnodes[i].children);
+						} else {
+							vnodes[i].text && initContent(node, vnodes[i].text);
+							vnodes[i].on && initEvent(node, vnodes[i].on);
+						}
+						appendChild(parent, node);
+					}
+				}
+
+				function createElement (tag) {
+					return document.createElement(tag);
+				}
+
+				function appendChild (parent, children) {
+					parent.appendChild(children);
+				}
+
+				function insertBefore (parentNode, newNode, referenceNode) {
+					parentNode.insertBefore(newNode, referenceNode);
+				}
+
+				function removeChild (node, child) {
+					node.removeChild(child);
+				}
+
+				function initContent (node, html) {
+					node.innerHTML = html;
+				}
+
+				function initEvent (node, event) {
+					for (var prop in event) {
+						if (event.hasOwnProperty(prop)) {
+							node['on'+prop] = event[prop];
+						}
+					}
+				}
+
+				patch(vnode);
+				
+			})(this, document);
+		</script>
+	</body>
+</html>
