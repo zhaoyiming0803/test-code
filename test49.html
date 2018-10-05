@@ -48,29 +48,32 @@
 					var el = '#app';
 					var newNode = createElement(vnode.tag);
 					newNode.id = el.substr(1);
-
-					if (Array.isArray(vnode.children) && vnode.children.length) {
-						createChild(newNode, vnode.children);	
+					
+					var children = vnode.children;
+					if (Array.isArray(children) && children.length) {
+						createChild(newNode, children);	
 					} else {
 						newNode.innerHTML = vnode.text;
 					}
 
 					var oldNode = document.querySelector(el);
-					var rootNode = document.body;
+					var rootNode = oldNode.parentNode;
 					insertBefore(rootNode, newNode, oldNode);
 					removeChild(rootNode, oldNode);
 				}
 
 				function createChild (parent, vnodes) {
 					for (var i = 0, len = vnodes.length; i < len; i += 1) {
-						var node = createElement(vnodes[i].tag);
-						if (Array.isArray(vnodes[i].children) && vnodes[i].children.length) {
-							createChild(node, vnodes[i].children);
+						var curNode = vnodes[i];
+						var ele = createElement(curNode.tag);
+						var curNodeChildren = curNode.children;
+						if (Array.isArray(curNodeChildren) && curNodeChildren.length) {
+							createChild(ele, curNodeChildren);
 						} else {
-							vnodes[i].text && initContent(node, vnodes[i].text);
-							vnodes[i].on && initEvent(node, vnodes[i].on);
+							curNode.text && initContent(ele, curNode.text);
+							curNode.on && initEvent(ele, curNode.on);
 						}
-						appendChild(parent, node);
+						appendChild(parent, ele);
 					}
 				}
 
