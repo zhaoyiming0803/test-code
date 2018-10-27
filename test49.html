@@ -5,7 +5,7 @@
 		<meta name="format-detection" content="telephone=no" />
 		<meta http-equiv="X-UA-Compatible" content="IE=11,IE=10,IE=9,IE=8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0" />
-		<title>Document</title>
+		<title>vnode patch</title>
 		<meta name="Keywords" content="" />
 		<meta name="Description" content="" />
 	</head>
@@ -44,36 +44,64 @@
 					]
 				};
 
-				function patch (vnode) {
-					var el = '#app';
-					var newNode = createElement(vnode.tag);
-					newNode.id = el.substr(1);
-					
-					var children = vnode.children;
-					if (Array.isArray(children) && children.length) {
-						createChild(newNode, children);	
-					} else {
-						newNode.innerHTML = vnode.text;
-					}
+//				function patch (vnode) {
+//					var el = '#app';
+//					var newNode = createElement(vnode.tag);
+//					newNode.id = el.substr(1);
+//					
+//					var children = vnode.children;
+//					if (Array.isArray(children) && children.length) {
+//						createChild(newNode, children);	
+//					} else {
+//						newNode.innerHTML = vnode.text;
+//					}
+//
+//					var oldNode = document.querySelector(el);
+//					var rootNode = oldNode.parentNode;
+//					insertBefore(rootNode, newNode, oldNode);
+//					removeChild(rootNode, oldNode);
+//				}
+//
+//				function createChild (parent, vnodes) {
+//					for (var i = 0, len = vnodes.length; i < len; i += 1) {
+//						var curNode = vnodes[i];
+//						var ele = createElement(curNode.tag);
+//						var curNodeChildren = curNode.children;
+//						if (Array.isArray(curNodeChildren) && curNodeChildren.length) {
+//							createChild(ele, curNodeChildren);
+//						} else {
+//							curNode.text && initContent(ele, curNode.text);
+//							curNode.on && initEvent(ele, curNode.on);
+//						}
+//						appendChild(parent, ele);
+//					}
+//				}
 
-					var oldNode = document.querySelector(el);
-					var rootNode = oldNode.parentNode;
-					insertBefore(rootNode, newNode, oldNode);
-					removeChild(rootNode, oldNode);
+				function patch (vnode) {
+					var ele = createElement('div');
+					ele.id = 'app';
+					createEle(ele, vnode);
+					
+					var oldEle = document.querySelector('#app');
+					var parentEle = oldEle.parentNode;
+					insertBefore(parentEle, ele, oldEle);
+					removeChild(parentEle, oldEle);
 				}
 
-				function createChild (parent, vnodes) {
-					for (var i = 0, len = vnodes.length; i < len; i += 1) {
-						var curNode = vnodes[i];
-						var ele = createElement(curNode.tag);
-						var curNodeChildren = curNode.children;
-						if (Array.isArray(curNodeChildren) && curNodeChildren.length) {
-							createChild(ele, curNodeChildren);
-						} else {
-							curNode.text && initContent(ele, curNode.text);
-							curNode.on && initEvent(ele, curNode.on);
-						}
-						appendChild(parent, ele);
+				function createEle (ele, vnode) {
+					vnode.ele = createElement(vnode.tag);
+					if (Array.isArray(vnode.children) && vnode.children.length) {
+						createChild(vnode.ele, vnode.children);
+					} else {
+						vnode.text && initContent(vnode.ele, vnode.text);
+						vnode.on && initEvent(vnode.ele, vnode.on);
+					}
+					appendChild(ele, vnode.ele);
+				}
+
+				function createChild (ele, children) {
+					for (var i = 0, len = children.length; i < len; i += 1) {
+						createEle(ele, children[i]);
 					}
 				}
 
