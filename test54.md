@@ -298,5 +298,304 @@ var res = findItemByReg(str);
 console.log(res);
 ```
 
+### 当我们加 () 只是为了提高优先级而不想捕获小分组时，可以在 () 中加 ?: 来取消分组的捕获
+
+``` javascript
+var str = 'aaabbb';
+var reg = /(a+)(?:b+)/;
+var res = reg.exec(str);
+//只捕获第一个小分组的内容
+console.log(res); // ["aaabbb", "aaa", index: 0, input: "aaabbb"]
+```
+
+``` javascript
+var str = 'aaabbb';
+var reg = /(a+)(b+)/;
+var res = reg.exec(str);
+// 捕获了全部2个小分组的内容
+console.log(res); // ["aaabbb", "aaa", "bbb", index: 0, input: "aaabbb"]
+```
+
 ### 正则运算符的优先级
+
+1、正则表达式从左到右进行计算，并遵循优先级顺序，这与算术表达式非常类似。
+
+2、相同优先级的会从左到右进行运算，不同优先级的运算先高后低。
+
+下面是常见的运算符的优先级排列，依次从最高到最低说明各种正则表达式运算符的优先级顺序：
+
+\                           => 转义符
+
+(), (?:), (?=), []          => 圆括号和方括号
+
+*, +, ?, {n}, {n,}, {n,m}   => 量词限定符
+
+^, $, \任何元字符、任何字符    => 以某个字符开头、结尾或转义
+
+|                           => 替换，"或" 操作
+
+字符具有高于替换运算符的优先级，一般用 | 的时候，为了提高 | 的优先级，我们常用()来提高优先级，如： 匹配 food 或者 foot 的时候 reg = /foo(t|d)/ 这样来匹配.
+
+### 正则的特性
+
+1、贪婪性：
+
+所谓的贪婪性就是正则在捕获时，每一次会尽可能多的去捕获符合条件的内容。如果我们想尽可能的少的去捕获符合条件的字符串的话，可以在量词元字符后加 ? 。
+
+2、懒惰性：
+
+懒惰性则是正则在成功捕获一次后不管后边的字符串有没有符合条件的都不再捕获。如果想捕获目标中所有符合条件的字符串的话，我们可以用标识符 g 来标明是全局捕获。
+
+``` javascript
+var str = '123aaa456';
+```
+
+``` javascript
+var reg = /\d+/;  // 只捕获一次,一次尽可能多的捕获
+var res = str.match(reg)
+console.log(res); // ["123", index: 0, input: "123aaa456"]
+```
+
+``` javascript
+var reg = /\d+/g; // 多次捕获，每次尽可能多的捕获
+var res = str.match(reg)
+console.log(res); // ["123", "456"]
+```
+
+``` javascript
+var reg = /\d+?/g;    // 解决贪婪性、懒惰性
+var res = str.match(reg)
+console.log(res); // ["1", "2", "3", "4", "5", "6"]
+```
+
+### 和正则相关的一些方法
+
+1、reg.test(str) 用来验证字符串是否符合正则 符合返回 true ，否则返回false
+
+参考 W3C 文档：《[JavaScript test() 方法](http://www.w3school.com.cn/jsref/jsref_test_regexp.asp)》
+
+``` javascript
+var str = 'abc';
+var reg = /\w+/;
+console.log(reg.test(str)); // true
+```
+
+2、reg.exec() 用来捕获符合规则的字符串
+
+参考 W3C 文档：《[JavaScript exec() 方法](http://www.w3school.com.cn/jsref/jsref_exec_regexp.asp)》
+
+``` javascript
+var str = 'abc123cba456aaa789';
+var reg = /\d+/;
+console.log(reg.exec(str)); // ["123", index: 3, input: "abc123cba456aaa789"];
+
+// reg.exec 捕获的数组中：[0: "123", index: 3, input: "abc123cba456aaa789"]
+// 0:     "123"                 表示我们捕获到的字符串
+// index: 3                     表示捕获开始位置的索引
+// input: "abc123cba456aaa789"  表示原有的字符串
+```
+
+当我们用exec进行捕获时，如果正则没有加 g 标识符，则 exec 捕获的每次都是同一个，当正则中有 g 标识符时 捕获的结果就不一样了,我们还是来看刚刚的例子：
+
+``` javascript
+var str = 'abc123cba456aaa789';
+var reg = /\d+/g; // 加标识符g
+
+console.log(reg.lastIndex); // lastIndex : 0 
+
+console.log(reg.exec(str)); // ["123", index: 3, input: "abc123cba456aaa789"]
+
+console.log(reg.lastIndex); // lastIndex : 6
+
+console.log(reg.exec(str)); // ["456", index: 9, input: "abc123cba456aaa789"]
+
+console.log(reg.lastIndex); // lastIndex : 12
+
+console.log(reg.exec(str)); // ["789", index: 15, input: "abc123cba456aaa789"]
+
+console.log(reg.lastIndex); // lastIndex : 18
+
+console.log(reg.exec(str)); // null
+
+console.log(reg.lastIndex); // lastIndex : 0
+
+// 每次调用 exec 方法时，捕获到的字符串都不相同
+// lastIndex 这个属性记录的就是下一次捕获从哪个索引开始。
+// 当未开始捕获时，这个值为0。          
+// 如果当前次捕获结果为null。那么lastIndex的值会被修改为 0，下次从头开始捕获。
+// 而且这个 lastIndex 属性还支持人为赋值。
+```
+
+exec的捕获还受分组 () 的影响
+
+``` javascript
+var str = '2018-12-09';
+var reg = /-(\d+)/g
+var res = '';
+while ((res=reg.exec(str))) {
+  console.log(res);
+}
+// res 的结果分别如下：
+// ["-12", "12", index: 4, input: "2018-12-09"]
+// ["-09", "09", index: 7, input: "2018-12-09"]
+
+// "-12" 正则捕获到的内容
+// "12"  捕获到的字符串中的小分组中的内容
+```
+
+3、str.match(reg) 如果匹配成功，就返回匹配成功的数组，如果匹配不成功，就返回 null
+
+参考 W3C 文档：《[JavaScript match() 方法](http://www.w3school.com.cn/jsref/jsref_match.asp)》
+
+``` javascript
+// match和exec的用法差不多
+var str = 'abc123cba456aaa789';
+var reg = /\d+/;
+console.log(reg.exec(str));  // ["123", index: 3, input: "abc123cba456aaa789"]
+console.log(str.match(reg)); // ["123", index: 3, input: "abc123cba456aaa789"]
+```
+
+上边两个方法 console 的结果有什么不同呢？二个字符串是一样的，当我们进行全局匹配时，二者的不同就会显现出来了：
+
+``` javascript
+var str = 'abc123cba456aaa789';
+var reg = /\d+/g;
+console.log(reg.exec(str));  // ["123", index: 3, input: "abc123cba456aaa789"]
+console.log(str.match(reg)); // ["123", "456", "789"]
+```
+
+当全局匹配时，match 方法会一次性把符合匹配条件的字符串全部捕获到数组中，如果想用 exec 来达到同样的效果需要执行多次 exec 方法，或者 while 循环。
+
+我们可以尝试着用 exec 来简单模拟下 match 方法的实现：
+
+``` javascript
+var str = 'abc123cba456aaa789';
+var reg = /\d+\w/g;
+
+// 原生 match 方法
+console.log(str.match(reg));
+
+String.prototype._match = function (reg) {
+  var res = [];
+  var match = '';
+  while ((match = reg.exec(str))) {
+    res.push(match[0]);
+  }
+  return res;
+}
+
+// 自定义的 _match 方法
+console.log(str._match(reg));
+```
+
+此外，match 和 exec 都可以受到分组 () 的影响，不过 match 只在没有标识符 g 的情况下才显示小分组的内容，如果有全局 g，则 match 会一次性全部捕获放到数组中。
+
+4、str.replace() 在字符串中 用一些字符 替换 另一些字符，或 替换一个 与 正则表达式匹配的 子串。
+
+参考 W3C 文档：《[JavaScript replace() 方法](http://www.w3school.com.cn/jsref/jsref_replace.asp)》
+
+正则去匹配字符串，匹配成功的字符去替换成新的字符串，写法：str.replace(reg, newStr);
+
+``` javascript
+var str = 'a111bc222de';
+var res = str.replace(/\d/g, 'Q')
+console.log(res); // "aQQQbcQQQde"
+```
+
+replace的第二个参数也可以是一个函数，str.replace(reg, fn)
+
+``` javascript
+var str = '2018-12-09';
+str = str.replace(/-\d+/g, function () {
+  console.log(arguments);
+})
+```
+
+以上代码，控制台打印结果：
+
+["-12", 4, "2018-12-09"]
+
+["-09", 7, "2018-12-09"]
+
+从打印结果我们发现每一次输出的值似乎跟 exec 捕获时很相似，既然与 exec 似乎很相似，那么似乎也可以打印出小分组中的内容： 
+
+``` javascript
+var str = '2018-12-09';
+str = str.replace(/-(\d+)/g, function () {
+  console.log(arguments);
+})
+```
+
+以上代码，控制台打印结果：
+
+["-12", "12", 4, "2018-12-09"]
+
+["-09", "09", 7, "2018-12-09"]
+
+此外，我们需要注意的是，如果我们需要替换replace中正则找到的字符串，函数中需要一个返回值去替换正则捕获的内容。
+
+通过replace方法获取url中的参数的方法：
+
+``` javascript
+String.prototype._queryString = function queryString(){
+  var obj = {};
+  var reg = /([^?&#+]+)=([^?&#+]+)/g;
+  this.replace(reg, function ($0, $1, $2) {
+    obj[$1] = $2;
+  })
+  return obj;
+}
+console.log('https://www.baidu.com?a=1&b=2'._queryString());
+```
+
+### 零宽断言
+
+用于查找在某些内容（但并不包括这些内容）之前或之后的东西，如 \b，^, $ 那样用于指定一个位置，这个位置应该满足一定的条件（即断言），因此它们也被称为零宽断言。
+
+#### 在使用正则表达式时，捕获的内容前后必须是特定的内容，而我们又不想捕获这些特定内容的时候，零宽断言就可以派上用场了。
+
+1、零宽度正预测先行断言 (?=exp)：字符出现的位置的右边必须匹配到 exp 这个表达式
+
+``` javascript
+var str = "i'm singing and dancing";
+var reg = /\b(\w+(?=ing\b))/g
+var res = str.match(reg);
+console.log(res); // ["sing", "danc"]
+```
+
+注意一点，这里说到的是位置，不是字符。
+
+``` javascript
+var str = 'abc';
+var reg = /a(?=b)c/;
+console.log(res.test(str));  // false
+```
+
+上面的正则匹配看起来似乎是正确的，实际上结果是false。reg中 a(?=b) 匹配字符串 'abc'， 字符串 a 的右边是 b 这个匹配没问题，接下来 reg 中 a (?=b) 后边的 c 匹配字符串时是从字符串 'abc' 中 a 的后边 b 的前边的这个位置开始匹配的，这个相当于 /ac/ 匹配 'abc'，所以结果是 false 。
+
+2、零宽度负预测先行断言 (?!exp)：字符出现的位置的右边不能是 exp 这个表达式
+
+``` javascript
+var str = 'nodejs';
+var reg = /node(?!js)/;
+console.log(reg.test(str)) // false
+```
+
+3、零宽度正回顾后发断言 (?<=exp)：字符出现的位置的前边是 exp 这个表达式
+
+``` javascript
+var str = '￥998$888';
+var reg = /(?<=\$)\d+/;
+console.log(reg.exec(str)) // 888
+```
+
+4、零宽度负回顾后发断言 (?<!exp)：字符出现的位置的前边不能是exp这个表达式
+
+``` javascript
+var str = '￥998$888';
+var reg = /(?<!\$)\d+/;
+console.log(reg.exec(str)) // 998
+```
+
+本文部分内容参考自：http://www.cnblogs.com/chenmeng0818/p/6370819.html。
 
