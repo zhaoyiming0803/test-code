@@ -57,6 +57,34 @@
                   ]
                 }
               ]
+            },
+            {
+              tag: 'div',
+              style: 'width: 100px; height: 100px; border: 1px solid red; box-sizing: border-box; font-size: 0;',
+              children: [
+                {
+                  tag: 'div',
+                  style: 'display: inline-block; vertical-align: middle; width: 50%; height: 100px; background-color: blue;',
+                  class: 'box2',
+                  content: 'Blue',
+                  on: {
+                    click: () => {
+                      alert('Blue');
+                    }
+                  }
+                },
+                {
+                  tag: 'div',
+                  style: 'display: inline-block; vertical-align: middle; width: 50%; height: 100px; background-color: orange;',
+                  class: 'box2',
+                  content: 'Orange',
+                  on: {
+                    click: () => {
+                      alert('Orange');
+                    }
+                  }
+                }
+              ]
             }
           ]
         }
@@ -71,8 +99,8 @@
       formatStyle (style) {
         const res = {};
         const styleArr = style
-          .replace(/-([a-z])/g, ($0, $1) => $1.toUpperCase())
           .replace(/\s+/g, '')
+          .replace(/-([a-z]):/g, ($0, $1) => $1.toUpperCase())
           .split(';');
         styleArr.forEach(item => {
           const arr = item.split(':');
@@ -99,6 +127,7 @@
             }
             if (prop === 'class') {
               props[prop] = this.formatClass(cur.class);
+              console.log(props[prop]);
               continue;
             }
             props[prop] = cur[prop];
@@ -141,4 +170,13 @@
     border-radius: 50px;
     cursor: pointer;
   }
+  .box2 {
+    line-height: 100px;
+    text-align: center;
+    font-size: 14px;
+    font-weight: 600;
+    color: white !important;
+    cursor: pointer;
+  }
 </style>
+
