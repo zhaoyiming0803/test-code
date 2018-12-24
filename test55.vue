@@ -104,7 +104,9 @@
           .split(';');
         styleArr.forEach(item => {
           const arr = item.split(':');
-          res[arr[0]] = arr[1];
+          if (arr[0]) {
+            res[arr[0]] = arr[1];
+          }
         });
         return res;
       },
