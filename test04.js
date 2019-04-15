@@ -1,30 +1,33 @@
 ;(function () {
 
     var arr = [
-        [1, 2, 3],
-        ['a', 'b', 'c'],
-        ['A', 'B', 'C', 'D']
+      [1, 2, 3, 4],
+      ['a', 'b', 'c'],
+      ['A', 'B', 'C', 'D']
     ];
-
-    function extract (arr) {
-        var newArr = [''];
-        for (var i = 0; i < arr.length; i += 1) {
-            newArr = combine(newArr, arr[i]);
-        }
-        return newArr;
+  
+    function combineArrayChildren (arr) {
+      var res = [''];
+  
+      for (var i = 0; i < arr.length; i += 1) {
+        res = combineArray(res, arr[i]);
+      }
+  
+      return res;
     }
-
-    function combine (left, right) {
-        var arr = [];
-        for (var i = 0; i < right.length; i += 1) {
-            for (var j = 0; j < left.length; j += 1) {
-                var tmp = left[j] + '' + right[i];
-                arr.push(tmp);
-            }
+  
+    function combineArray (arr1, arr2) {
+      var res = [];
+  
+      for (var i = 0; i < arr1.length; i += 1) {
+        for (var j = 0; j < arr2.length; j += 1) {
+          res.push(arr1[i] + '' + arr2[j]);
         }
-        return arr;
+      }
+  
+      return res;
     }
-
-    console.log(extract(arr));
-
-})();
+  
+    console.log(combineArrayChildren(arr));
+  
+  })();
