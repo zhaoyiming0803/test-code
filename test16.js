@@ -1,45 +1,54 @@
 ;(function () {
-    
+
     var cityList = [
-        {id: 1, pid: 0, name: '北京市'},
-        {id: 2, pid: 1, name: '朝阳区'},
-        {id: 3, pid: 1, name: '东城区'},
-        {id: 4, pid: 0, name: '山西省'},
-        {id: 5, pid: 4, name: '太原市'},
-        {id: 6, pid: 5, name: '杏花岭区'}
+      {id: 1, pid: 0, name: '北京市'},
+      {id: 2, pid: 1, name: '朝阳区'},
+      {id: 3, pid: 1, name: '东城区'},
+      {id: 4, pid: 0, name: '山西省'},
+      {id: 5, pid: 4, name: '太原市'},
+      {id: 6, pid: 5, name: '杏花岭区'}
     ];
-
-    function formatCity (arr, pid) {
-        var pid = pid || 0;
-        var newArr = [];
-        for (var i = 0; i < arr.length; i += 1) {
-            if (arr[i].pid === pid) {
-                arr[i].children = formatCity(arr, arr[i].id);
-                newArr = newArr.concat(arr[i]);
-            }
+  
+    function formatArrayChildren (arr, pid) {
+      var pid = pid !== undefined ? pid : 0;
+      var res = [];
+      
+      for (var i = 0; i < arr.length; i += 1) {
+        var cur = arr[i];
+        
+        if (cur.pid === pid) {
+          cur.children = formatArrayChildren(arr, cur.id);
+          res = res.concat(cur);
         }
-        return newArr;
+      }
+  
+      return res;
     }
-
-    var cityTree = formatCity(cityList);
-    console.log(cityTree);
-
-    function getCityList (cityTree) {
-        var arr = [];
-        for (var i = 0; i < cityTree.length; i += 1) {
-            arr.push({
-                id: cityTree[i].id,
-                pid: cityTree[i].pid,
-                name: cityTree[i].name
-            });
-            if (cityTree[i].children && cityTree[i].children.length) {
-                arr = arr.concat(getCityList(cityTree[i].children));
-            }
+  
+    var formatedCityList = formatArrayChildren(cityList);
+    console.log(formatedCityList);
+    console.log('-----------------');
+  
+    function normalizeArrayChildren (arr, pid) {
+      var pid = pid !== undefined ? pid : 0;
+      var res = [];
+  
+      for (var i = 0; i < arr.length; i += 1) {
+        var cur = arr[i];
+  
+        res.push(cur);
+  
+        if (cur.pid === pid) {
+          res = res.concat(normalizeArrayChildren(cur.children, cur.id));
         }
-        return arr;
+  
+        delete cur.children;
+      }
+  
+      return res;
     }
-
-    var cityList = getCityList(cityTree);
-    console.log(cityList);
-
-})();
+  
+    var $cityList = normalizeArrayChildren(formatedCityList);
+    console.log($cityList);
+  
+  })();
