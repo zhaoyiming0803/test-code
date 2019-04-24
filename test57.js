@@ -3,7 +3,7 @@
   function cached (fn) {
     var cache = Object.create(null);
     return function (str) {
-      const hit = cache[str];
+      var hit = cache[str];
       debugger;
       return hit || (cache[str] = fn(str));
     }
