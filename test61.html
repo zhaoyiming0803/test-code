@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<style type="text/css">
+		.outer {
+			width: 300px;
+			height: 200px;
+			background-color: red;
+		}
+
+		.inner {
+			width: 200px;
+			height: 100px;
+			background-color: blue;
+		}
+	</style>
+</head>
+<body>
+
+	<div class="outer">
+		<div class="inner"></div>
+	</div>	
+
+	<script type="text/javascript">
+		var outer = document.querySelector('.outer');
+		var inner = document.querySelector('.inner');
+
+		// 给 outer 添加一个观察者
+		new MutationObserver(function() {
+		  console.log('mutate');
+		}).observe(outer, {
+		  attributes: true
+		});
+
+		// click 回调函数
+		function onClick() {
+			console.log(this);
+		  console.log('click');
+
+		  setTimeout(function() {
+		    console.log('timeout');
+		  }, 0);
+
+		  Promise.resolve().then(function() {
+		    console.log('promise');
+		  });
+
+		  outer.setAttribute('data-random', Math.random());
+		}
+
+		inner.addEventListener('click', onClick);
+		outer.addEventListener('click', onClick);
+	</script>
+
+</body>
+</html>
