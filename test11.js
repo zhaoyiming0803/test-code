@@ -7,7 +7,10 @@
     };
   
     function deepCopy (origin, target) {
-      var origin = origin || {};
+      if (target === undefined) {
+        target = origin;
+        origin = {};
+      }
       var keys = Object.keys(target);
   
       for (var i = 0; i < keys.length; i += 1) {
