@@ -6,33 +6,31 @@
       skills: ['HTML', 'CSS', 'JavaScript'],
     };
   
-    function deepCopy (origin, target) {
-      if (target === undefined) {
-        target = origin;
-        origin = {};
+    function deepCopy (target, origin) {
+      if (origin === undefined) {
+        origin = target;
+        target = {};
       }
-      var keys = Object.keys(target);
-  
-      for (var i = 0; i < keys.length; i += 1) {
-        var key = keys[i];
-        
-        if (origin[key]) {
+      
+      for (let prop in origin) {
+        if (!origin.hasOwnProperty(prop) || target[prop]) {
           continue;
         }
-  
-        var val = target[key];
-        if (typeof val !== 'object') {
-          origin[key] = val;
+
+        var originChild = origin[prop];
+
+        if (typeof originChild === 'string') {
+          target[prop] = originChild;
           continue;
         }
-  
-        var child = Array.isArray(val)
+
+        target[prop] = Array.isArray(originChild)
           ? []
           : {};
-        origin[key] = deepCopy(child, val);
+        deepCopy(target[prop], originChild);
       }
-  
-      return origin;
+    
+      return target;
     }
   
     var copiedPerson = deepCopy({}, person);
