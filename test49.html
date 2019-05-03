@@ -1,5 +1,6 @@
 <!doctype html>
 <html lang="en">
+
 	<head>
 		<meta charset="UTF-8" />
 		<meta name="format-detection" content="telephone=no" />
@@ -9,16 +10,16 @@
 		<meta name="Keywords" content="" />
 		<meta name="Description" content="" />
 	</head>
+
 	<body>
 		<div id="app"></div>
 
 		<script type="text/javascript">
 			;(function (window, document) {
-				
+
 				var vnode = {
 					tag: 'div',
-					children: [
-						{
+					children: [{
 							tag: 'div',
 							text: 123,
 							on: {
@@ -29,66 +30,62 @@
 						},
 						{
 							tag: 'div',
-							children: [
-								{
-									tag: 'span',
-									children: [
-										{
-											tag: 'a',
-											text: 456
-										}
-									]
-								}
-							]
+							children: [{
+								tag: 'span',
+								children: [{
+									tag: 'a',
+									text: 456
+								}]
+							}]
 						}
 					]
 				};
 
-//				function patch (vnode) {
-//					var el = '#app';
-//					var newNode = createElement(vnode.tag);
-//					newNode.id = el.substr(1);
-//					
-//					var children = vnode.children;
-//					if (Array.isArray(children) && children.length) {
-//						createChild(newNode, children);	
-//					} else {
-//						newNode.innerHTML = vnode.text;
-//					}
-//
-//					var oldNode = document.querySelector(el);
-//					var rootNode = oldNode.parentNode;
-//					insertBefore(rootNode, newNode, oldNode);
-//					removeChild(rootNode, oldNode);
-//				}
-//
-//				function createChild (parent, vnodes) {
-//					for (var i = 0, len = vnodes.length; i < len; i += 1) {
-//						var curNode = vnodes[i];
-//						var ele = createElement(curNode.tag);
-//						var curNodeChildren = curNode.children;
-//						if (Array.isArray(curNodeChildren) && curNodeChildren.length) {
-//							createChild(ele, curNodeChildren);
-//						} else {
-//							curNode.text && initContent(ele, curNode.text);
-//							curNode.on && initEvent(ele, curNode.on);
-//						}
-//						appendChild(parent, ele);
-//					}
-//				}
+				//				function patch (vnode) {
+				//					var el = '#app';
+				//					var newNode = createElement(vnode.tag);
+				//					newNode.id = el.substr(1);
+				//					
+				//					var children = vnode.children;
+				//					if (Array.isArray(children) && children.length) {
+				//						createChild(newNode, children);	
+				//					} else {
+				//						newNode.innerHTML = vnode.text;
+				//					}
+				//
+				//					var oldNode = document.querySelector(el);
+				//					var rootNode = oldNode.parentNode;
+				//					insertBefore(rootNode, newNode, oldNode);
+				//					removeChild(rootNode, oldNode);
+				//				}
+				//
+				//				function createChild (parent, vnodes) {
+				//					for (var i = 0, len = vnodes.length; i < len; i += 1) {
+				//						var curNode = vnodes[i];
+				//						var ele = createElement(curNode.tag);
+				//						var curNodeChildren = curNode.children;
+				//						if (Array.isArray(curNodeChildren) && curNodeChildren.length) {
+				//							createChild(ele, curNodeChildren);
+				//						} else {
+				//							curNode.text && initContent(ele, curNode.text);
+				//							curNode.on && initEvent(ele, curNode.on);
+				//						}
+				//						appendChild(parent, ele);
+				//					}
+				//				}
 
-				function patch (vnode) {
+				function patch(vnode) {
 					var ele = createElement('div');
 					ele.id = 'app';
 					createEle(ele, vnode);
-					
+
 					var oldEle = document.querySelector('#app');
 					var parentEle = oldEle.parentNode;
 					insertBefore(parentEle, ele, oldEle);
 					removeChild(parentEle, oldEle);
 				}
 
-				function createEle (ele, vnode) {
+				function createEle(ele, vnode) {
 					vnode.ele = createElement(vnode.tag);
 					if (Array.isArray(vnode.children) && vnode.children.length) {
 						createChild(vnode.ele, vnode.children);
@@ -99,43 +96,44 @@
 					appendChild(ele, vnode.ele);
 				}
 
-				function createChild (ele, children) {
+				function createChild(ele, children) {
 					for (var i = 0, len = children.length; i < len; i += 1) {
 						createEle(ele, children[i]);
 					}
 				}
 
-				function createElement (tag) {
+				function createElement(tag) {
 					return document.createElement(tag);
 				}
 
-				function appendChild (parent, children) {
+				function appendChild(parent, children) {
 					parent.appendChild(children);
 				}
 
-				function insertBefore (parentNode, newNode, referenceNode) {
+				function insertBefore(parentNode, newNode, referenceNode) {
 					parentNode.insertBefore(newNode, referenceNode);
 				}
 
-				function removeChild (node, child) {
+				function removeChild(node, child) {
 					node.removeChild(child);
 				}
 
-				function initContent (node, html) {
+				function initContent(node, html) {
 					node.innerHTML = html;
 				}
 
-				function initEvent (node, event) {
+				function initEvent(node, event) {
 					for (var prop in event) {
 						if (event.hasOwnProperty(prop)) {
-							node['on'+prop] = event[prop];
+							node['on' + prop] = event[prop];
 						}
 					}
 				}
 
 				patch(vnode);
-				
+
 			})(this, document);
 		</script>
 	</body>
+
 </html>
