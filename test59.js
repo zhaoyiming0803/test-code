@@ -20,9 +20,11 @@
 ;(function () {
 
   function fn() {
+    if (fn.count === undefined) {
+      return (fn.count = 1);
+    }
     return fn.count += 1;
   };
-  fn.count = 0;
 
   console.log(fn());
   console.log(fn());
