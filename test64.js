@@ -70,6 +70,8 @@
     }
   })();
 
+  Dep.target = null;
+
   Dep.prototype.addSub = function (sub) {
     this.subs.push(sub);
   }
@@ -78,8 +80,18 @@
     var subs = this.subs;
     var i = subs.length;
     while (i--) {
-      subs[i]();
+      subs[i].callback();
     }
+  }
+
+  Dep.prototype.depend = function () {
+    if (Dep.target) {
+      Dep.target.addDep(this);
+    }
+  }
+
+  function pushTarget (target) {
+    Dep.target = target;
   }
 
   function def (obj, key, val, enumerable) {
@@ -95,14 +107,19 @@
     if (!isPlainObject(target) && !Array.isArray(target)) {
       return;
     }
-    var ob = new Observer(target);
+
+    var __ob__ = target.__ob__;
+    var ob = __ob__ && __ob__ instanceof Observer
+      ? __ob__
+      : new Observer(target);
+
     return ob;
   }
 
   function Observer (value) {
     this.value = value;
     this.dep = new Dep();
-    def(value, '__ob__', value);
+    def(value, '__ob__', this);
     this.walk(value);
   }
 
@@ -128,9 +145,11 @@
       enumerable: true,
       configurable: true,
       get: function () {
-        dep.addSub(watcher[key]);
-        if (childOb) {
-          childOb.dep.addSub(watcher[key]);
+        if (Dep.target) {
+          dep.depend();
+          if (childOb) {
+            childOb.dep.depend();
+          }
         }
         return val;
       },
@@ -142,22 +161,44 @@
     });
   }
 
-  var watcher = {};
-  function $watch (exp, callback) {
-    watcher[exp] = callback;
+  function Watcher (exp, callback) {
+    this.callback = callback;
+    this.get(exp);
+  }
+
+  Watcher.prototype.get = function (vm, exp) {
+    // JS 同步执行，同一时间，有且只有一个观察者（依赖）被收集
+    pushTarget(this);
+    if (/\./.test(exp)) {
+      var arr = exp.split('.');
+      var obj = vm[arr[0]];
+      for (var i = 1; i < arr.length; i += 1) {
+        obj = obj[arr[i]];
+      }
+      return;
+    }
     vm[exp];
   }
 
-
+  Watcher.prototype.addDep = function (dep) {
+    dep.addSub(this);
+  }
 
 
   initData();
 
-  $watch('age', function () {
+  new Watcher('age', function () {
     console.log('change age now');
+  });
+
+  new Watcher('love.sports', function () {
+    console.log('change love.sports now');
   });
 
   vm.age = 100;
   console.log(vm._data.age === vm.age);
+
+  vm.love.sports = 'basketball';
+  console.log(vm._data.love.sports);
 
 })();
