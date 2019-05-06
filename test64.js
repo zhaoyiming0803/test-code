@@ -5,7 +5,11 @@
       data: function () {
         return {
           name: 'zymfe',
-          age: 18
+          age: 18,
+          love: {
+            sports: 'ping pang',
+            food: 'ice cream'
+          }
         }
       }
     }
@@ -58,15 +62,6 @@
     return Object.prototype.toString.call(obj) === '[object Object]';
   }
 
-  var watcher = {
-    name: function () {
-      console.log('change name');
-    },
-    age: function () {
-      console.log('change age');
-    }
-  };
-
   var Dep = (function () {
     var uid = 0;
     return function () {
@@ -106,6 +101,7 @@
 
   function Observer (value) {
     this.value = value;
+    this.dep = new Dep();
     def(value, '__ob__', value);
     this.walk(value);
   }
@@ -126,12 +122,16 @@
   function defineReactive (target, key) {
     var val = target[key];
     var dep = new Dep();
+    var childOb = observe(val);
 
     Object.defineProperty(target, key, {
       enumerable: true,
       configurable: true,
       get: function () {
         dep.addSub(watcher[key]);
+        if (childOb) {
+          childOb.dep.addSub(watcher[key]);
+        }
         return val;
       },
       set: function (newVal) {
@@ -142,8 +142,22 @@
     });
   }
 
+  var watcher = {};
+  function $watch (exp, callback) {
+    watcher[exp] = callback;
+    vm[exp];
+  }
+
+
+
+
   initData();
+
+  $watch('age', function () {
+    console.log('change age now');
+  });
+
   vm.age = 100;
-  console.log(vm._data.age);
+  console.log(vm._data.age === vm.age);
 
 })();
