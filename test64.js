@@ -94,6 +94,10 @@
     Dep.target = target;
   }
 
+  function popTarget () {
+    Dep.target = null;
+  }
+
   function def (obj, key, val, enumerable) {
     Object.defineProperty(obj, key, {
       value: val,
@@ -161,10 +165,14 @@
     });
   }
 
-  function Watcher (exp, callback) {
-    this.callback = callback;
-    this.get(exp);
-  }
+  var Watcher = (function () {
+    var uid = 0;
+    return function (vm, exp, callback) {
+      this.uid = uid++;
+      this.callback = callback;
+      this.get(vm, exp);
+    }
+  })();
 
   Watcher.prototype.get = function (vm, exp) {
     // JS 同步执行，同一时间，有且只有一个观察者（依赖）被收集
@@ -175,9 +183,11 @@
       for (var i = 1; i < arr.length; i += 1) {
         obj = obj[arr[i]];
       }
+      popTarget();
       return;
     }
     vm[exp];
+    popTarget();
   }
 
   Watcher.prototype.addDep = function (dep) {
@@ -187,11 +197,11 @@
 
   initData();
 
-  new Watcher('age', function () {
+  new Watcher(vm, 'age', function () {
     console.log('change age now');
   });
 
-  new Watcher('love.sports', function () {
+  new Watcher(vm, 'love.sports', function () {
     console.log('change love.sports now');
   });
 
@@ -199,6 +209,9 @@
   console.log(vm._data.age === vm.age);
 
   vm.love.sports = 'basketball';
+  // 测试是否会收集多余的依赖
+  console.log(vm.love);
+  console.log(vm.love);
   console.log(vm._data.love.sports);
 
 })();
