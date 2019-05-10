@@ -9,7 +9,16 @@
           love: {
             sports: 'ping pang',
             food: 'ice cream'
-          }
+          },
+          skills: [
+            'HTML', 
+            'CSS', 
+            'JavaScript',
+            {
+              a: 1,
+              b: 2
+            }/** 仅供测试 */
+          ]
         }
       }
     }
@@ -107,6 +116,79 @@
     });
   }
 
+  var hasProto = '__proto__' in {};
+  // var hasProto = null;
+  var arrayProto = Array.prototype;
+  var arrayMethods = Object.create(arrayProto);
+  
+  ;(function () {
+    var arrayMethodsPatch = [
+      'push',
+      'pop',
+      'unshift',
+      'shift',
+      'reverse',
+      'concat',
+      'slice',
+      'splice',
+      'sort',
+      'join'
+    ];
+    var i = arrayMethodsPatch.length;
+
+    while (i--) {
+      ;(function () {
+        var method = arrayMethodsPatch[i];
+        var origin = arrayProto[method];
+        def(arrayMethods, method, function () {
+          var args = [].slice.call(arguments, 0);
+          var res = origin.apply(this, args);
+          var ob = this.__ob__;
+          var inserted = ['push', 'unshift'].includes(method)
+            ? args
+            : 'splice' === method
+              ? args.slice(2)
+              : [];
+          if (inserted.length) {
+            ob.observeArray(inserted);
+          }
+          console.log('执行变异的数据方法并触发依赖回调，返回值:', inserted);
+          ob.dep.notify();
+          return res;
+        });
+      })();
+    }
+  })();
+
+  function protoAugment (value, arrayMethods) {
+    value.__proto__ = arrayMethods;
+  }
+
+  function copyAugment (value, arrayMethods) {
+    var arrayKeys = Object.getOwnPropertyNames(arrayMethods);
+    for (var i = 0; i < arrayKeys.length; i += 1) {
+      var key = arrayKeys[i];
+      def(value, key, arrayMethods[key]);
+    }
+  }
+
+  /**
+   * dependArray 主要解决以下问题：
+   * 数组元素的访问形式为[索引值]，它和对象的访问器属性不同，例：
+   * vm.love = {} 可以赋新值，并重新收集 love 字段的依赖，但
+   * vm.skills[3] = [] 无法收集对新值的依赖，这是 JS 对象和数组的不同之处
+   * @param { Array } value 
+   */
+  function dependArray (value) {
+    for (var i = 0; i < value.length; i += 1) {
+      var item = value[i];
+      item && item.__ob__ && item.__ob__.dep.depend();
+      if (Array.isArray(item)) {
+        dependArray(item);
+      }
+    }
+  }
+
   function observe (target) {
     if (!isPlainObject(target) && !Array.isArray(target)) {
       return;
@@ -124,14 +206,26 @@
     this.value = value;
     this.dep = new Dep();
     def(value, '__ob__', this);
-    this.walk(value);
+    if (Array.isArray(value)) {
+      var augment = hasProto ? protoAugment : copyAugment;
+      augment(value, arrayMethods);
+      this.observeArray(value);
+    } else {
+      this.walk(value);
+    }
   }
 
-  Observer.prototype.walk = function (obj) {
-    var keys = Object.keys(obj);
+  Observer.prototype.walk = function (value) {
+    var keys = Object.keys(value);
     var i = keys.length;
     while (i--) {
-      defineReactive(obj, keys[i]);
+      defineReactive(value, keys[i]);
+    }
+  }
+
+  Observer.prototype.observeArray = function (value) {
+    for (var i = 0; i < value.length; i += 1) {
+      observe(value[i]);
     }
   }
 
@@ -153,6 +247,9 @@
           dep.depend();
           if (childOb) {
             childOb.dep.depend();
+            if (Array.isArray(val)) {
+              dependArray(val);
+            }
           }
         }
         return val;
@@ -161,6 +258,7 @@
         if (val === newVal) return;
         val = newVal;
         childOb = observe(newVal);
+        console.log('执行了对象依赖回调，新值：', newVal);
         dep.notify();
       }
     });
@@ -178,16 +276,7 @@
   Watcher.prototype.get = function (vm, exp) {
     // JS 同步执行，同一时间，有且只有一个观察者（依赖）被收集
     pushTarget(this);
-    if (/\./.test(exp)) {
-      var arr = exp.split('.');
-      var obj = vm[arr[0]];
-      for (var i = 1; i < arr.length; i += 1) {
-        obj = obj[arr[i]];
-      }
-      popTarget();
-      return;
-    }
-    vm[exp];
+    eval('exp');
     popTarget();
   }
 
@@ -198,12 +287,16 @@
 
   initData();
 
-  new Watcher(vm, 'age', function () {
+  new Watcher(vm, vm.age, function () {
     console.log('change age now');
   });
 
-  new Watcher(vm, 'love.sports', function () {
+  new Watcher(vm, vm.love.sports, function () {
     console.log('change love.sports now');
+  });
+
+  new Watcher(vm, vm.skills, function () {
+    console.log('change skills now');
   });
 
   // vm.age = 100;
@@ -215,11 +308,15 @@
   // console.log(vm.love);
   // console.log(vm._data.love.sports);
 
-  vm.love = {
-    a: 1
-  };
+  // vm.love = {
+  //   a: 1
+  // };
 
-  vm.love.a = {b: 222};
-  vm.love.a.b = 333;
+  // vm.love.sports = {};
+
+  // vm.skills.splice(0, 1);
+  // console.log(vm.skills);
+
+  // vm.skills[3].b = 3;
 
 })();
