@@ -19,7 +19,12 @@
               b: 2
             },/** 仅供测试 */
             [1, 2, 3, 4]
-          ]
+          ],
+          a: {
+            b: {
+              c: 100
+            }
+          }
         }
       }
     }
@@ -330,6 +335,7 @@
   })();
 
   ;(function test4 () {
+    return;
     new Watcher(vm, 'vm.skills', function () {
       console.log('change skills now');
     });
@@ -345,6 +351,23 @@
     vm.skills[4].splice(1, 1, 200); // 可以触发依赖回调
     // vm.skills[4][1] = 200; // 无法触发依赖回调
     console.log('vm.skills[4]: ', vm.skills[4]);
+  })();
+
+  ;(function test4 () {
+    new Watcher(vm, 'vm.a', function () {
+      console.log('vm.a');
+    });
+
+    new Watcher(vm, 'vm.a.b', function () {
+      console.log('vm.a.b');
+    });
+
+    new Watcher(vm, 'vm.a.b.c', function () {
+      console.log('vm.a.b.c');
+    });
+    
+    vm.a.b = 'b';
+    // vm.a.b.c = 'c';
   })();
 
 })();
