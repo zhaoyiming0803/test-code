@@ -17,7 +17,8 @@
             {
               a: 1,
               b: 2
-            }/** 仅供测试 */
+            },/** 仅供测试 */
+            [1, 2, 3, 4]
           ]
         }
       }
@@ -144,6 +145,7 @@
           var args = [].slice.call(arguments, 0);
           var res = origin.apply(this, args);
           var ob = this.__ob__;
+          // 数组的 push unshift splice 不是纯函数，会改变自身
           var inserted = ['push', 'unshift'].includes(method)
             ? args
             : 'splice' === method
@@ -177,6 +179,7 @@
    * 数组元素的访问形式为[索引值]，它和对象的访问器属性不同，例：
    * vm.love = {} 可以赋新值，并重新收集 love 字段的依赖，但
    * vm.skills[3] = [] 无法收集对新值的依赖，这是 JS 对象和数组的不同之处
+   * 测试用例：test3、test4
    * @param { Array } value 
    */
   function dependArray (value) {
@@ -276,7 +279,7 @@
   Watcher.prototype.get = function (vm, exp) {
     // JS 同步执行，同一时间，有且只有一个观察者（依赖）被收集
     pushTarget(this);
-    eval('exp');
+    eval(exp);
     popTarget();
   }
 
@@ -287,36 +290,61 @@
 
   initData();
 
-  new Watcher(vm, vm.age, function () {
-    console.log('change age now');
-  });
+  ;(function test1 () {
+    return;
+    new Watcher(vm, 'vm.age', function () {
+      console.log('change age now');
+    });
+  
+    vm.age = 100;
+    console.log(vm._data.age === vm.age);
+  })();
 
-  new Watcher(vm, vm.love.sports, function () {
-    console.log('change love.sports now');
-  });
+  ;(function test2 () {
+    return;
+    new Watcher(vm, 'vm.love.sports', function () {
+      console.log('change love.sports now');
+    });
+  
+    vm.love.sports = 'basketball';
+    // 测试是否会收集多余的依赖
+    console.log(vm.love);
+    console.log(vm.love);
+    console.log(vm._data.love.sports);
 
-  new Watcher(vm, vm.skills, function () {
-    console.log('change skills now');
-  });
+    vm.love = {
+      a: 1
+    };
+  
+    vm.love.sports = {};
+  })();
 
-  // vm.age = 100;
-  // console.log(vm._data.age === vm.age);
+  ;(function test3 () {
+    return;
+    new Watcher(vm, 'vm.skills[3].b', function () {
+      console.log('vm.skills[3].b：', vm.skills[3]);
+    });
 
-  // vm.love.sports = 'basketball';
-  // 测试是否会收集多余的依赖
-  // console.log(vm.love);
-  // console.log(vm.love);
-  // console.log(vm._data.love.sports);
+    vm.skills[3].b = 1000;
+    console.log(vm.skills[3].b);
+  })();
 
-  // vm.love = {
-  //   a: 1
-  // };
+  ;(function test4 () {
+    new Watcher(vm, 'vm.skills', function () {
+      console.log('change skills now');
+    });
+  
+    new Watcher(vm, 'vm.skills[4]', function () {
+      console.log('vm.skills[4]：', vm.skills[4]);
+    });
 
-  // vm.love.sports = {};
-
-  // vm.skills.splice(0, 1);
-  // console.log(vm.skills);
-
-  // vm.skills[3].b = 3;
+    new Watcher(vm, 'vm.skills[4][1]', function () {
+      console.log('vm.skills[4][1]：', vm.skills[4][1]);
+    });
+  
+    vm.skills[4].splice(1, 1, 200); // 可以触发依赖回调
+    // vm.skills[4][1] = 200; // 无法触发依赖回调
+    console.log('vm.skills[4]: ', vm.skills[4]);
+  })();
 
 })();

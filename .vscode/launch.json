@@ -5,12 +5,6 @@
       "type": "node",
       "request": "launch",
       "name": "Launch Program",
-      "program": "${workspaceFolder}/test65.js"
-    },
-    {
-      "type": "node",
-      "request": "launch",
-      "name": "Launch Program",
       "program": "${workspaceFolder}/test64.js"
     }
   ]
