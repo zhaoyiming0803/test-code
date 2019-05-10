@@ -160,6 +160,7 @@
       set: function (newVal) {
         if (val === newVal) return;
         val = newVal;
+        childOb = observe(newVal);
         dep.notify();
       }
     });
@@ -205,13 +206,20 @@
     console.log('change love.sports now');
   });
 
-  vm.age = 100;
-  console.log(vm._data.age === vm.age);
+  // vm.age = 100;
+  // console.log(vm._data.age === vm.age);
 
-  vm.love.sports = 'basketball';
+  // vm.love.sports = 'basketball';
   // 测试是否会收集多余的依赖
-  console.log(vm.love);
-  console.log(vm.love);
-  console.log(vm._data.love.sports);
+  // console.log(vm.love);
+  // console.log(vm.love);
+  // console.log(vm._data.love.sports);
+
+  vm.love = {
+    a: 1
+  };
+
+  vm.love.a = {b: 222};
+  vm.love.a.b = 333;
 
 })();
