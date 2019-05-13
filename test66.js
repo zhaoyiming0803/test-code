@@ -11,10 +11,11 @@
   ];
 
   for (var i = 1; i < strArr.length; i += 1) {
-    if (arr[arr.length - 1].includes(strArr[i])) {
-      arr[arr.length - 1].push(strArr[i]);
+    var substring = strArr[i];
+    if (arr[arr.length - 1].includes(substring)) {
+      arr[arr.length - 1].push(substring);
     } else {
-      arr.push([strArr[i]]);
+      arr.push([substring]);
     }
   }
 
