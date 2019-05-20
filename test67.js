@@ -27,5 +27,6 @@
   };
 
   console.log(fn._call(obj, 1, 2));
+  console.log(obj);
 
 })();
