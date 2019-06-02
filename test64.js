@@ -134,11 +134,8 @@
       'unshift',
       'shift',
       'reverse',
-      'concat',
-      'slice',
       'splice',
-      'sort',
-      'join'
+      'sort'
     ];
     var i = arrayMethodsPatch.length;
 
