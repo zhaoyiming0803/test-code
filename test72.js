@@ -28,4 +28,5 @@
   // https://www.jianshu.com/p/837b584e1bdd
   // https://www.zhihu.com/question/23028843/answer/34585034
   // https://nodejs.org/en/blog/release/v0.10.0/
+  // https://jakearchibald.com/2015/tasks-microtasks-queues-and-schedules/
 })();
