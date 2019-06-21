@@ -25,7 +25,7 @@
 <body>
 
   <div id="container" data-growui-scene="45">
-    <a href="javascript:;" data-growui-style="10" class="advertising-container">
+    <a href="https://zymfe.github.io" data-growui-style="10" class="advertising-container">
       <img 
         src="http://f.hiphotos.baidu.com/image/h%3D300/sign=00af05b334f33a87816d061af65d1018/8d5494eef01f3a29f863534d9725bc315d607c8e.jpg"
         width="100"
@@ -96,9 +96,17 @@
         }
       }
 
+      var isClickAdp = false;
+
+      window.addEventListener('beforeunload', function (e) {
+        if (isClickAdp) delayUnLoad(500);
+      });
+
       document.body.addEventListener('click', function (e) {
-        getAdpNode(e.target) && report();
-        delayUnLoad(100);
+        if (getAdpNode(e.target)) {
+          isClickAdp = true;
+          report();
+        }
       }, true);
 
     })();
