@@ -9,6 +9,6 @@
     )
   );
 
-  sleep(1.1);
+  sleep(3);
 
   echo json_encode($data);

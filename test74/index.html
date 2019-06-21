@@ -25,7 +25,7 @@
 <body>
 
   <div id="container" data-growui-scene="45">
-    <a href="https://zymfe.github.io" data-growui-style="10" class="advertising-container">
+    <a href="javascript:;" data-growui-style="10" class="advertising-container">
       <img 
         src="http://f.hiphotos.baidu.com/image/h%3D300/sign=00af05b334f33a87816d061af65d1018/8d5494eef01f3a29f863534d9725bc315d607c8e.jpg"
         width="100"
@@ -65,7 +65,21 @@
       function report () {
         $.ajax({
           type: 'POST',
-          url: './data.php'
+          url: './data.php',
+          data: {
+            a: 1,
+            b: 2
+          },
+          success: function (res) {
+            window.localStorage.success_start = Date.now();
+            delayUnLoad(100);
+            window.localStorage.success_end = Date.now();
+          },
+          error: function (res) {
+            window.localStorage.error_start = Date.now();
+            delayUnLoad(100);
+            window.localStorage.error_end = Date.now();
+          }
         });
       }
       
@@ -84,7 +98,7 @@
 
       document.body.addEventListener('click', function (e) {
         getAdpNode(e.target) && report();
-        delayUnLoad();
+        delayUnLoad(100);
       }, true);
 
     })();
