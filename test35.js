@@ -1,25 +1,29 @@
-;(function () {
-    
-    var arr = [1, 2, 3, 4];
+; (function () {
 
-    Array.prototype._reduce = function (fn) {
-        var res = this[0];
+	var arr = [1, 2, 3, 4];
 
-        for (var i = 1, len = this.length; i < len; i += 1) {
-            res = fn(res, this[i]);
-        }
+	Array.prototype._reduce = function (cb, base) {
+		var index = 0;
+		var res = base !== undefined
+			? base
+			: this[index++];
+		var lastIndex = this.length - 1;
+		while (index <= lastIndex) {
+			res = cb(res, this[index++]);
+		}
+		return res;
+	}
 
-        return res;
-    }
+	var sum = arr._reduce(function (a, b) {
+		return a + b;
+	}, 0);
+	console.log(sum); // 10
 
-    var sum = arr._reduce(function (a, b) {
-        return a + b;
-    });
-    console.log(sum);
+	var product = arr._reduce(function (a, b) {
+		return a * b;
+	}, 1);
+	console.log(product); // 24
 
-    var product = arr._reduce(function (a, b) {
-        return a * b;
-    });
-    console.log(product);
+	console.log([1]._reduce((a, b) => a + b)); // 1
 
 })();
