@@ -1,79 +1,61 @@
-;(function () {
-  // jquery serialize
-  // https://github.com/jquery/jquery/blob/master/src/serialize.js
+;
+(function () {
+	// jquery serialize params
+	// https://github.com/jquery/jquery/blob/master/src/serialize.js
+	function isPlainObject(field) {
+		return Object.prototype.toString.call(field) === '[object Object]';
+	}
 
-  var toString = Object.prototype.toString;
+	function buildURL(url, params) {
+		var hashIndex = url.indexOf('#');
+		if (hashIndex > -1) {
+			url = url.substring(0, hashIndex);
+		}
+		if (!isPlainObject(params)) {
+			return url;
+		}
+		var serializedParams = [];
+		var add = function (key, val) {
+			val = typeof val === 'function' ?
+				val() :
+				val;
+			var serializedParam = encodeURIComponent(key) +
+				'=' +
+				(!val ? '' : encodeURIComponent(val));
+			serializedParams.push(serializedParam);
+		};
+		Object.keys(params).forEach(function (key) {
+			buildParam(key, params[key], add);
+		});
+		url += (url.indexOf('?') ? '&' : '?') + serializedParams.join('&');
+		return url;
+	}
 
-  function isPlainObject (field) {
-    return toString.call(field) === '[object Object]';
-  }
-
-  function isDate (field) {
-    return toString.call(field) === '[object Date]';
-  }
-
-  function buildURL (url, params) {
-    const hashIndex = url.indexOf('#');
-    if (hashIndex) {
-      url = url.substring(0, hashIndex);
-    }
-
-    if (!params) {
-      return url;
-    }
-
-    const parts = [];
-    let prefix = '';
-
-    function add ( key, valueOrFunction ) {
-      var value = typeof valueOrFunction === 'function' 
-        ? valueOrFunction() 
-        : valueOrFunction;
-			parts[parts.length] = encodeURIComponent( key ) + '=' +
-				encodeURIComponent(value === null ? '' : value);
-    };
-    
-    if (Array.isArray(params)) {
-      params.forEach((val, key) => {
-        add(key, val);
-      });
-    } else {
-      for (prefix in params) {
-        buildParams(prefix, params[prefix], add);
-      }
-    }
-
-    return parts.join('&');
-  }
-
-  var rbracket = /\[\]$/;
-
-  function buildParams (prefix, obj, add) {
-    var name;
-    if ( Array.isArray( obj ) ) {
-      obj.forEach((v, i) => {
-        buildParams(
-          prefix + "[" + ( typeof v === "object" && v != null ? i : "" ) + "]",
-          v,
-          add
-        );
-      });
-    } else if (isPlainObject(obj)) {
-      for (name in obj) {
-        buildParams( prefix + "[" + name + "]", obj[ name ], add );
-      }
-  
-    } else {
-      add( prefix, obj );
-    }
-  }
-
-  console.log(buildURL('http://www.baidu.com?a=3#/sf', {
-    a: 1,
-    b: {
-      pwd: 123
-    },
-    c: [1, new Date(), {d: 1, e: 2}, [1, [2, [100]]], {f: 'f'}]
-  }));
-
+	function buildParam(key, val, add) {
+		if (Array.isArray(val)) {
+			val.forEach(function (v, k) {
+				buildParam(key + "[" + (typeof v === 'object' && v !== null ? k : '') + "]", v, add);
+			});
+		} else if (isPlainObject(val)) {
+			Object.keys(val).forEach(function (k) {
+				buildParam(key + "[" + k + "]", val[k], add);
+			});
+		} else {
+			add(key, val);
+		}
+	}
+	console.log(buildURL('http://www.baidu.com?a=3#/sf', {
+		a: 1,
+		b: {
+			pwd: 123
+		},
+		c: [1, new Date(), {
+				d: 1,
+				e: 2
+			},
+			[1, [2, [100]]], {
+				f: 'f'
+			}
+		]
+	}));
 })();
