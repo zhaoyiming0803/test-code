@@ -22,7 +22,7 @@
       var lastIndex = reg.lastIndex;
       var strPath = res[1];
       arr.push(`list.push(${JSON.stringify(source.slice(index, res.index))})`);
-      if (!/^(http|https)/.test(strPath)) {
+      if (!/(http|https):\/\//.test(strPath)) {
         arr.push(`list.push('url('+require(${strPath})+')')`);
       } else {
         arr.push(`list.push('url('+${strPath}+')')`);
