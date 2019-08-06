@@ -13,23 +13,21 @@
   `;
 
   function transformCss (source) {
-    var reg = /url\((.*?)\)/g;
-    var arr = ['var list = [];'];
-    var index = 0;
+    var reg = /url\((.+?)\)/img;
     var res = null;
+    var arr = ['var list = []'];
+    var index = 0;
 
     while (res = reg.exec(source)) {
-      var lastIndex = reg.lastIndex;
-      var strPath = res[1];
+      var [matchedStr, sourcePath] = res;
       arr.push(`list.push(${JSON.stringify(source.slice(index, res.index))})`);
-      if (!/(http|https):\/\//.test(strPath)) {
-        arr.push(`list.push('url('+require(${strPath})+')')`);
+      if (/https?:\/\//img.test(sourcePath)) {
+        arr.push(`list.push('url('+ ${sourcePath} +')')`);
       } else {
-        arr.push(`list.push('url('+${strPath}+')')`);
+        arr.push(`list.push('url('+ require(${sourcePath}) +')')`);
       }
-      index = lastIndex;
+      index = reg.lastIndex;
     }
-
     arr.push(`list.push(${JSON.stringify(source.slice(index))})`);
 
     return arr.join('\r\n');
