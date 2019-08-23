@@ -2,7 +2,7 @@
 
 	var arr = [1, 100, -99, 10, 22, 33, 0];
 
-	function quickSort(arr) {
+	function quickSort (arr) {
 		if (arr.length <= 1) {
 			return arr;
 		}
@@ -13,12 +13,8 @@
 
 		for (var i = 1; i < arr.length; i += 1) {
 			var cur = arr[i];
-
-			if (cur <= middle) {
-				left.push(cur);
-			} else {
-				right.push(cur);
-			}
+			if (cur <= middle) left.push(cur);
+			else right.push(cur);
 		}
 
 		var _left = quickSort(left);
