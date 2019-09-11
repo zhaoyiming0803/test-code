@@ -25,10 +25,6 @@ formUploader.putFile(uploadToken, key, localFile, putExtra, (respErr, respBody, 
   if (respErr) {
     throw respErr;
   }
-  if (respInfo.statusCode == 200) {
-    console.log('respBody: ', respBody);
-  } else {
-    console.log('statusCode: ', respInfo.statusCode);
-    console.log('respBody: ', respBody);
-  }
+  console.log('respInfo: ', respInfo); // respInfo.statusCode
+  console.log('respBody: ', respBody);
 });
