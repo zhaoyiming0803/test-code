@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="format-detection" content="telephone=no" />
+		<meta http-equiv="X-UA-Compatible" content="IE=11,IE=10,IE=9,IE=8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0" />
+		<title>Document</title>
+		<meta name="Keywords" content="" />
+		<meta name="Description" content="" />
+		<style type="text/css">
+			.test {
+				width: 223px;
+				height: 258px;
+				border: 1px solid #ccc;
+				margin-top: 100px;
+				margin-left: -1px; /*  */
+				float: left;
+			}
+
+			.test:hover {
+				position: relative; 
+				border: 1px solid #f40;
+			}
+		</style>
+	</head>
+	<body>
+    <!--
+      PC端 1px 产生的原因：
+        元素浮动并加border之后，相邻的边框重叠，展现出2px的效果
+
+      解决：
+        1、margin-left: -1px
+        2、向左移动-1px之后，2px 问题暂时没有了，但是鼠标hover之后，右侧边框被覆盖了，所以添加 position: relative 解决。
+    -->
+		<div class="test"></div>
+		<div class="test"></div>
+		<div class="test"></div>
+		<div class="test"></div>
+	</body>
+</html>
