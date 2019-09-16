@@ -4,10 +4,10 @@
 	var arr2 = [0, 1, 2];
 
 	var arrProto = {};
-	var arrMethodList = ['push', 'pop', 'unshift', 'shift', 'splice', 'slice', 'reverse', 'sort', 'concat', 'join'];
+	var arrMethods = ['push', 'pop', 'unshift', 'shift', 'splice', 'slice', 'reverse', 'sort', 'concat', 'join'];
 
-	for (var i = 0; i < arrMethodList.length; i += 1) {
-		var method = arrMethodList[i];
+	for (var i = 0; i < arrMethods.length; i += 1) {
+		var method = arrMethods[i];
 		arrProto[method] = (function (method) {
 			return function () {
 				console.log('做自己想做的事情');
