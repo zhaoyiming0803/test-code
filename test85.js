@@ -55,6 +55,8 @@
 
 ;(function () {
 
+  return;
+
   setImmediate(function () {
     console.log('setImmediate');
   });
@@ -72,5 +74,31 @@
   });
 
   // process.nextTick > promise > setTimeout > setImmediate
+
+})();
+
+;(function () {
+
+  setImmediate(function () {
+    console.log(3);
+  });
+
+  process.nextTick(function () {
+    console.log(1);
+
+    Promise.resolve().then(function () {
+      console.log(5);
+    });
+
+    process.nextTick(function () {
+      console.log(2);
+
+      setImmediate(function () {
+        console.log(4);
+      });
+    });
+  });
+
+  // 1 2 5 3 4
 
 })();
