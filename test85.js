@@ -34,6 +34,8 @@
 
 ;(function () {
 
+  return;
+
   var p1 = new Promise(function (resolve, reject) {
     setTimeout(function () {
       a();
@@ -48,5 +50,27 @@
     .catch(function (error) {
       console.log(error);
     });
+
+})();
+
+;(function () {
+
+  setImmediate(function () {
+    console.log('setImmediate');
+  });
+
+  setTimeout(function () {
+    console.log('setTimeout');
+  });
+
+  Promise.resolve().then(function () {
+    console.log('promise');
+  });
+  
+  process.nextTick(function () {
+    console.log('process.nextTick');
+  });
+
+  // process.nextTick > promise > setTimeout > setImmediate
 
 })();
