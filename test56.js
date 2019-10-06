@@ -5,6 +5,7 @@
 	// index 	当前的索引
 	// arr 		循环的数组
 	// reduce 第二个参数表示 pre 的初始值
+	// test35.js
 
 	// 求和
 	var sum = [1, 2, 3].reduce(function (pre, cur, index, arr) {

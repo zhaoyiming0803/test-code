@@ -2,14 +2,25 @@
 
 	var arr = [1, 2, 3, 4];
 
+	// Array.prototype._reduce = function (cb, base) {
+	// 	var index = 0;
+	// 	var res = base !== undefined
+	// 		? base
+	// 		: this[index++];
+	// 	var lastIndex = this.length - 1;
+	// 	while (index <= lastIndex) {
+	// 		res = cb(res, this[index++]);
+	// 	}
+	// 	return res;
+	// }
+
 	Array.prototype._reduce = function (cb, base) {
 		var index = 0;
 		var res = base !== undefined
 			? base
 			: this[index++];
-		var lastIndex = this.length - 1;
-		while (index <= lastIndex) {
-			res = cb(res, this[index++]);
+		for (; index < this.length; index++) {
+			res = cb(res, this[index]);
 		}
 		return res;
 	}
