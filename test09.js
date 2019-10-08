@@ -1,7 +1,5 @@
 ;(function () {
 
-	var arr = [1, 100, -99, 10, 22, 33, 0];
-
 	function selectionSorting (arr) {
 		for (var i = 0; i < arr.length; i += 1) {
 			var minIdx = i;
@@ -11,14 +9,18 @@
 				}
 			}
 			if (i !== minIdx) {
-				arr[minIdx] = arr.splice(i, 1, arr[minIdx])[0];
+				// arr[minIdx] = arr.splice(i, 1, arr[minIdx])[0];
+				var minVal = arr[minIdx];
+				var tmp = arr[i];
+				arr[minIdx] = tmp;
+				arr[i] = minVal;
 			}
 		}
+		return arr;
 	}
 
 	console.time('time');
-	selectionSorting(arr);
+	console.log(selectionSorting([1, 100, -99, 10, 22, 33, 0]));
 	console.timeEnd('time');
-	console.log(arr);
 
 })();
