@@ -1,7 +1,5 @@
 ;(function () {
 
-	var arr = [1, 100, -99, 10, 22, 33, 0];
-
 	function quickSort (arr) {
 		if (arr.length <= 1) {
 			return arr;
@@ -17,14 +15,20 @@
 			else right.push(cur);
 		}
 
+		console.log('left', left);
 		var _left = quickSort(left);
-		var _right = quickSort(right);
+		console.log('_left', _left);
 
+		console.log('right', right);
+		var _right = quickSort(right);
+		console.log('_right', _right);
+
+		console.log('-------');
 		return _left.concat(middle, _right);
 	}
 
 	console.time('time');
-	var res = quickSort(arr);
+	var res = quickSort([22, 100, -99, 10, 1, 33, 0]);
 	console.timeEnd('time');
 	console.log(res);
 
