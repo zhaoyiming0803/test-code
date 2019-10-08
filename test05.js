@@ -1,6 +1,4 @@
-;(function () {
-
-	var arr = [0, 1, 2, 3, 4, 5, -1, 100, 101, 102, 104, 103];
+; (function () {
 
 	function insertSort(arr) {
 		var res = [arr[0]];
@@ -13,9 +11,10 @@
 
 			for (var j = res.length - 1; j >= 0; j -= 1) {
 				if (arr[i] > res[j]) {
-					var tmp = res.splice(j + 1);
-					res.push(arr[i]);
-					res = res.concat(tmp);
+					// var tmp = res.splice(j + 1);
+					// res.push(arr[i]);
+					// res = res.concat(tmp);
+					res.splice(j + 1, 0, arr[i]);
 					break;
 				}
 			}
@@ -24,6 +23,6 @@
 		return res;
 	}
 
-	console.log(insertSort(arr));
+	console.log(insertSort([0, 1, 2, 3, 4, 5, -1, 100, 101, 102, 104, 103]));
 
 })();
