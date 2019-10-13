@@ -40,9 +40,9 @@
     return next();
   }
 
-  // promiseWaterfull([p1, p2, p3]).then(res => {
-  //   console.log(res);
-  // });
+  promiseWaterfull([p1, p2, p3]).then(res => {
+    console.log(res);
+  });
 
 })();
 
