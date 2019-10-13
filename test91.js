@@ -51,7 +51,7 @@
   function p1 () {
     return new Promise((resolve, reject) => {
       setTimeout(() => {
-        reject(1);
+        resolve(1);
       }, 1000);
     });
   }
@@ -74,11 +74,12 @@
 
   function promiseAll (arr, callback) {
     var index = 0;
+    var len = arr.length;
 
     for (var i = 0; i < arr.length; i++) {
       arr[i]()
         .then(res => {
-          if (index++ === arr.length - 1) {
+          if (--len === 0) {
             callback('success');
           }
         })
@@ -93,3 +94,7 @@
   });
 
 })();
+
+// promiseAll 比 promiseWaterfull 先输出结果
+// 因为 promiseAll 是并发执行
+// 而 promiseWaterfull 是在队列中按序执行
