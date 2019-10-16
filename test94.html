@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>e.target and e.currentTarget</title>
+  <style>
+    ul {
+      background-color: blue;
+    }
+
+    ul li {
+      margin-bottom: 10px;
+      height: 50px;
+      background-color: red;
+    }
+  </style>
+</head>
+<body>
+  <ul id="list">
+    <li>1</li>
+    <li>2</li>
+    <li>3</li>
+  </ul>
+
+  <script>
+    ;(function () {
+      var oList = document.querySelector('#list');
+      var oLi = oList.querySelectorAll('li');
+
+      oList.addEventListener('click', function (e) {
+        console.log('target', e.target);
+        console.log('currentTarget', e.currentTarget);
+        console.log(this);
+      }, false);
+    })();
+
+    // MDN中对target的解释为，一个触发事件的对象的引用， 当事件处理程序在事件的冒泡或捕获阶段被调用时。
+    // 而对于currentTarget，它指的是当事件遍历DOM时，标识事件的当前目标。它总是引用事件处理程序附加到的元素，而不是event.target，它标识事件发生的元素。
+
+    // 我们知道，e.target可以用来实现事件委托，该原理是通过事件冒泡（或者事件捕获）给父元素添加事件监听，
+    // e.target指向引发触发事件的元素，如上述的例子中，e.target指向用户点击的li，
+    // 由于事件冒泡，li的点击事件冒泡到了ul上，通过给ul添加监听事件而达到了给每一个li添加监听事件的效果，
+    // 而e.currentTarget指向的是给绑定事件监听的那个对象，即ul，
+    // 从这里可以发现，e.currentTarget===this返回true，而e.target===this返回false。
+    // e.currenttarget 和 e.target是不相等的
+  </script>
+</body>
+</html>
