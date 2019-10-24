@@ -31,7 +31,8 @@
 
       解决：
         1、margin-left: -1px
-        2、向左移动-1px之后，2px 问题暂时没有了，但是鼠标hover之后，右侧边框被覆盖了，所以添加 position: relative 解决。
+				2、向左移动-1px之后，2px 问题暂时没有了，但是鼠标hover之后，右侧边框被覆盖了，所以添加 position: relative 解决。
+				因为 relative 的元素对象不可层叠，所以相互不会被盖住。
     -->
 		<div class="test"></div>
 		<div class="test"></div>
