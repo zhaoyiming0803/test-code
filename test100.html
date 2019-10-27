@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title> Mock React useState Hook </title>
+</head>
+
+<body>
+
+  <button id="btn1">state1 + 1</button>
+
+  <script type="text/javascript">
+    ; (function () {
+
+      var states = [];
+      var cursor = 0;
+
+      function useState(val) {
+        var _cursor = cursor++;
+        var state = states[_cursor];
+
+        if (state === undefined) {
+          states[_cursor] = val;
+        }
+
+        function setState(newVal) {
+          states[_cursor] = newVal;
+        }
+
+        return [states[_cursor], setState];
+      }
+
+      function functionalComponent(type) {
+        var [state1, setState1] = useState(0);
+        var [state2, setState2] = useState(100);
+
+        setState1(state1 + 1);
+        setState2(state2 - 1);
+
+        return `state1: ${state1}, state2: ${state2}`;
+      }
+
+      functionalComponent();
+
+      var btn1 = document.querySelector('#btn1');
+      btn1.onclick = function () {
+        // 每次重新渲染，就把 cursor 置为 0
+        cursor = 0;
+        console.log(functionalComponent());
+      }
+
+    })();
+  </script>
+
+
+</body>
+
+</html>
