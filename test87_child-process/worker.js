@@ -1,7 +1,8 @@
 ;(function () {
 
-  process.nextTick(() => {
-    console.log(1);
+  process.on('message', data => {
+    console.log(data);
+    process.send({ message: 'hello, i am child_process' });
   });
 
 })();
