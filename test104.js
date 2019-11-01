@@ -13,4 +13,10 @@
 
   fn2(4, 5, 6);
 
+  function fn3 () {
+    console.log(arguments.callee === fn3); // true
+  }
+
+  fn3(1, 2, 3);
+
 })();
