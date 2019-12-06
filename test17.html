@@ -19,16 +19,14 @@
 
     	ctx.save();
 
-			img.src = 'https://livintown.oss-cn-beijing.aliyuncs.com/mobile-livintown/red-packet/red-packet.png';
 			img.crossOrigin='anonymous';
-			
     	img.addEventListener('load', function () {
     		ctx.translate(canvasWidth/2, canvasHeight/2);
 		    ctx.rotate(Math.PI*180/180); // 旋转的弧度 = Math.PI * 角度 / 180
 				ctx.drawImage(img, -canvasWidth/4, -canvasHeight/4, 180/2, 125/2);
-				
 				document.querySelector('#img').src = canvas.toDataURL('image/png');
 			}, false);
+			img.src = 'https://livintown.oss-cn-beijing.aliyuncs.com/mobile-livintown/red-packet/red-packet.png';
 
 		})(this, document);
 
