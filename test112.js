@@ -1,6 +1,6 @@
 ;(function () {
   // http://es6.ruanyifeng.com/#docs/generator
-  var gen = function * () {
+  var gen = function* () {
     var a = yield 1;
     var b = yield 2;
     return 'hello world';
@@ -21,5 +21,25 @@
   };
 
   getValue();
+
+})();
+
+;(function () {
+
+  function request (val) {
+    setTimeout(() => {
+      console.log(val);
+      genRes.next();
+    }, 50);
+  }
+
+  function* gen () {
+    yield request(1);
+    yield request(2);
+    yield request(3);
+  }
+
+  const genRes = gen();
+  genRes.next();
 
 })();
