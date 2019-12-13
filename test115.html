@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>layout and render</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+    }
+
+    div {
+      margin-bottom: 10px;
+    }
+
+    .box1 {
+      width: 100px;
+      height: 100px;
+      background-color: #92B901;
+      animation: moveBox1 3s infinite linear;
+    }
+
+    @keyframes moveBox1 {
+      0% {
+        transform: translateX(0);
+      }
+      50% {
+        transform: translateX(100px);
+      }
+      100% {
+        transform: translateX(200px);
+      }
+    }
+
+    .box2 {
+      position: absolute;
+      top: 200px;
+      left: 0;
+      width: 100px;
+      height: 100px;
+      background-color: #92B901;
+      animation: moveBox2 3s infinite linear;
+    }
+
+    @keyframes moveBox2 {
+      0% {
+        left: 0;
+      }
+      50% {
+        left: 100px;
+      }
+      100% {
+        left: 200px;
+      }
+    }
+
+    .box3, .box4 {
+      display: inline-block;
+      width: 100px;
+      height: 100px;
+      background-color: #92B901;
+    }
+
+    .box1, .box2, .box3, .box4 {
+      line-height: 100px;
+      text-align: center;
+      color: #fff;
+      border-radius: 10px;
+    }
+  </style>
+</head>
+<body>
+  <div class="doc">用css动画而不是js动画：</div>
+  <div class="doc">css动画有一个重要的特性，它是完全工作在GPU上。因为你声明了一个动画如何开始和如何结束，浏览器会在动画开始前准备好所有需要的指令；并把它们发送给GPU。</div>
+  <div class="doc">而如果使用js动画，浏览器必须计算每一帧的状态；为了保证平滑的动画，我们必须在浏览器主线程计算新状态；把它们发送给GPU至少60次每秒。</div>
+  <div class="doc">除了计算和发送数据比css动画要慢，主线程的负载也会影响动画； 当主线程的计算任务过多时，会造成动画的延迟、卡顿。</div>
+  <div class="doc">使用 transform: translate 动画的元素，外围有一个黄色的边框，可知其为复合层。</div>
+  <div class="doc">在 GPU 渲染的过程中，一些元素会因为符合了某些规则，而被提升为独立的层（黄色边框部分），一旦独立出来，就不会影响其它 DOM 的布局，所以我们可以利用这些规则，将经常变换的 DOM 主动提升到独立的层，那么在浏览器的一帧运行中，就可以减少 Layout 和 Paint 的时间了。</div>
+  <div>http://velocity.oreilly.com.cn/2013/ppts/16_ms_optimization--web_front-end_performance_optimization.pdf</div>
+  <div>https://segmentfault.com/a/1190000012925872</div>
+  
+  <div class="box1">box1</div>
+  <div class="box2">box2</div>
+  <div>
+    <div class="box3">box3</div>
+    <div class="box4">box4</div>
+  </div>
+
+  <script>
+    ;(function (window) {
+      var distance = 0;
+      var box3 = document.querySelector('.box3');
+
+      function move () {
+        if (distance <= 200) {
+          distance += 1;
+        } else {
+          distance = 0;
+        }
+        box3.style.marginLeft = distance + 'px';
+        window.requestAnimationFrame(move);
+      }
+
+      window.requestAnimationFrame(move);
+    })(this);
+  </script>
+</body>
+</html>
