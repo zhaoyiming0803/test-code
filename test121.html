@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>左边宽度固定，右边盒子宽度自适应的几种常见布局方式</title>
+  <style>
+    .container {
+      margin-bottom: 20px;
+    }
+
+    .left {
+      width: 100px;
+      height: 100px;
+      background-color: red;
+    }
+
+    .right {
+      height: 100px;
+      background-color: blue;
+    }
+
+    .box1 {
+      display: flex;
+    }
+
+    .box1 .left {
+      flex-shrink: 0;
+    }
+
+    .box1 .right {
+      flex-shrink: 0;
+      flex-grow: 1;
+      width: 0;
+    }
+
+    .box2 {
+      overflow: hidden; /* 避免高度塌陷，起到清除浮动的作用 */
+    }
+
+    .box2 .left {
+      float: left;
+    }
+
+    .box2 .right {
+      overflow: hidden;  /* 使 right 具体 BFC 特性，阻止其被浮动元素覆盖 */
+    }
+
+    .box3 {
+      position: relative;
+    }
+
+    .box3 .left {
+      position: absolute;
+      z-index: 1;
+    }
+
+    .box3 .right {
+      margin-left: 100px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="box1">
+      <div class="left"></div>
+      <div class="right">right</div>
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="box2">
+      <div class="left"></div>
+      <div class="right">right</div>
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="box3">
+      <div class="left"></div>
+      <div class="right">right</div>
+    </div>
+  </div>
+</body>
+</html>
