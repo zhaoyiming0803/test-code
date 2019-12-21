@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>左边两边宽度固定，中间自适应</title>
+  <style>
+    .container {
+      margin-bottom: 20px;
+    }
+
+    .left, .right {
+      width: 100px;
+      height: 100px;
+      background-color: red;
+    }
+
+    .right {
+      background-color: blue;
+    }
+
+    .center {
+      height: 100px;
+      background-color: yellow;
+    }
+
+    .box1 {
+      display: table;
+      width: 100%; /* 必须设置宽度 */
+    }
+
+    .box1 .left {
+      display: table-cell;
+    }
+
+    .box1 .right {
+      display: table-cell;
+    }
+
+    .box1 .center {
+      display: table-cell;
+    }
+
+    .box2 {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .box2 .left {
+      flex-shrink: 0;
+    }
+
+    .box2 .right {
+      flex-shrink: 0;
+    }
+
+    .box2 .center {
+      flex-grow: 1;
+      flex-shrink: 0;
+    }
+
+    .box3 {
+      position: relative;
+    }
+
+    .bo3 .left {
+      position: absolute;
+      top: 0;
+      left: 0;
+    }
+
+    .box3 .center{
+      position: absolute;
+      top: 0;
+      left: 100px;
+      right: 100px;
+    } 
+    
+    .box3 .right {
+      position: absolute;
+      top: 0;
+      right: 0;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="box1">
+      <div class="left"></div>
+      <div class="center"></div>
+      <div class="right"></div>
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="box2">
+      <div class="left"></div>
+      <div class="center"></div>
+      <div class="right"></div>
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="box3">
+      <div class="left"></div>
+      <div class="center"></div>
+      <div class="right"></div>
+    </div>
+  </div>
+</body>
+</html>
