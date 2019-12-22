@@ -37,7 +37,7 @@
       buildParam(key, params[key], add);
     });
 
-    url += (url.indexOf('?') ? '&' : '?') + serializedParams.join('&');
+    url += (url.indexOf('?') !== -1 ? '&' : '?') + serializedParams.join('&');
 
     return url;
   }
