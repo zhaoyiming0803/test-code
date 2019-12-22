@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+    }
+    ul {
+      padding: 10px;
+    }
+    li {
+      position: relative;
+      z-index: 2;
+      list-style: none;
+      margin-bottom: 10px;
+      background-color: red;
+      color: white;
+      border-radius: 20px;
+    }
+
+    @keyframes move {
+      0% {
+        transform: translateX(0);
+      }
+      50% {
+        transform: translateX(50px);
+      }
+      100% {
+        transform: translateX(100px);
+      }
+    }
+
+    .title {
+      animation: move 1s infinite linear;
+    }
+
+    .title.zindex {
+      position: relative;
+      z-index: 3;
+    }
+  </style>
+</head>
+<body>
+  <h1 class="title" id="title">this is h1</h1>
+
+  <input type="checkbox" name="btn" id="btn">
+  <label for="btn">给title添加z-index</label>
+
+  <ul id="list">
+
+  </ul>
+
+  <script>
+    ;(function (window, document) {
+
+      function $ (str) {
+        return document.querySelector(str);
+      }
+
+      var list = $('#list');
+      var fragment = document.createDocumentFragment();
+      for (var i = 0; i < 2000; i++) {
+        var li = document.createElement('li');
+        li.innerHTML = i;
+        fragment.appendChild(li);
+      }
+      list.appendChild(fragment);
+      fragment = null;
+
+      var btn = $('#btn');
+      var title = $('#title');
+      btn.addEventListener('change', function (e) {
+        if (e.target.checked) {
+          title.classList.add('zindex');
+        } else {
+          title.classList.remove('zindex');
+        }
+      });
+      
+    })(this, document);
+  </script>
+</body>
+</html>
