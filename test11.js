@@ -1,6 +1,6 @@
-;(function () {
+module.exports = (function () {
   
-    function deepCopy (origin) {
+    return function deepCopy (origin) {
       var target = Array.isArray(origin) ? [] : {};
 
       for (var prop in origin) {
