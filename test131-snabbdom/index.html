@@ -37,7 +37,8 @@
         h.h('h1', 'Headline'),
         h.h('p', 'A paragraph'),
       ])
-      patch(tovnode.toVNode(document.querySelector('.container')), newVNode)
+      var vnode = patch(tovnode.toVNode(document.querySelector('.container')), newVNode)
+      console.log(vnode)
     })();
   </script>
 </body>
