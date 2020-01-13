@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+
+<body>
+  <div class="container" style="color: #000;">
+    <h1>h1</h1>
+    <p>p</p>
+  </div>
+
+  <script src="./dist/snabbdom.js"></script>
+  <script src="./dist/tovnode.js"></script>
+  <script src="./dist/h.js"></script>
+
+  <script>
+    ; (function () {
+      // 递归调用 createElm，将 vnode 转为 dom
+      // createElm 与 toVNode 的作用正好相反
+      return
+      var patch = snabbdom.init([])
+      var newVNode = h.h('div', { style: { color: '#000' } }, [
+        h.h('h1', 'Headline'),
+        h.h('p', 'A paragraph'),
+      ])
+      patch(tovnode.toVNode(document.querySelector('.container')), newVNode)
+    })();
+
+    ;(function () {
+      var patch = snabbdom.init([])
+      var newVNode = h.h('div.container', { style: { color: '#000' } }, [
+        h.h('h1', 'Headline'),
+        h.h('p', 'A paragraph'),
+      ])
+      patch(tovnode.toVNode(document.querySelector('.container')), newVNode)
+    })();
+  </script>
+</body>
+
+</html>

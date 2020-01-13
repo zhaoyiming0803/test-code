@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+  <div class="container">
+    <h1>h1</h1>
+    <p>p</p>
+  </div>
+
+  <script>
+    ;(function (window, document) {
+      var oldNode = document.querySelector('.container')
+
+      // create new dom, vnode to element
+      var node = (function createNewNode() {
+        var oDiv = document.createElement('div')
+        var content = `
+          <div id="container">
+            <h1>new h1</h1>
+            <p>new p</p>
+          </div>
+        `
+        oDiv.innerHTML = content
+        return oDiv.children[0]
+      })()
+
+      var parent = oldNode.parentNode
+      
+      if (parent) {
+        parent.insertBefore(node, oldNode.nextElementSibling)
+        parent.removeChild(oldNode)
+      }
+    })(window, document);
+  </script>
+</body>
+</html>
