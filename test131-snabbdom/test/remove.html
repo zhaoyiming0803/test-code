@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+  <div class="container0">
+    <div>0-0</div>
+    <div>0-1</div>
+  </div>
+
+  <div>------------------------</div>
+
+  <div class="container1">
+    <div>1-0</div>
+    <div>1-1</div>
+  </div>
+
+  <script>
+    ;(function (window, document) {
+      var container0 = document.querySelector('.container0')
+      var container1 = document.querySelector('.container1')
+
+      container0.insertBefore(container1.firstElementChild, container0.lastElementChild)
+    })(window, document);
+  </script>
+</body>
+</html>
