@@ -13,6 +13,12 @@
     <div>3</div>
   </div>
 
+  <div>------------</div>
+
+  <div class="container1">
+    <div>1</div>
+  </div>
+
   <script>
     ;(function (window, document) {
       var container = document.querySelector('.container')
@@ -22,6 +28,12 @@
         container.children[1] = undefined
         console.log(container.children)
       }, 1000)
+
+      setTimeout(() => {
+        // error
+        var container1 = document.querySelector('.container1')
+        container.insertBefore(container.firstElementChild, container1.firstElementChild)
+      }, 2000)
     })(window, document);
   </script>
 </body>
