@@ -5,7 +5,7 @@
       "type": "node",
       "request": "launch",
       "name": "Launch Program",
-      "program": "${workspaceFolder}/test131-snabbdom/index.js"
+      "program": "${workspaceFolder}/test125.js"
     }
   ]
 }

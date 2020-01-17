@@ -12,6 +12,32 @@
     }
   }
 
+  Array.prototype._reduceRight = function (fn, val) {
+    const len = this.length
+
+    if (!len) {
+      return this
+    }
+
+    let i = len - 1
+    let _val = val || this[i--]
+
+    while (i >= 0) {
+      _val = fn(_val, this[i--])
+    }
+
+    return _val
+  }
+
+  function composeRight () {
+    var args = [].slice.call(arguments)
+    return function (arg) {
+      return args._reduceRight((arg, next) => {
+        return next(arg)
+      }, arg)
+    }
+  }
+
   function reverse (str) {
     return str.split('').reverse().join('');
   }
@@ -24,9 +50,7 @@
     return str.toLowerCase();
   }
 
-  const fn = compose(toUpperCase, reverse, toLowerCase);
-  console.log(fn('hello world'));
-
-  
+  console.log(compose(toUpperCase, reverse, toLowerCase)('hello world'));
+  console.log(composeRight(toLowerCase, toUpperCase, reverse)('hello world'));
 
 })();
