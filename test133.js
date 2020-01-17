@@ -26,6 +26,8 @@
         }
       }
     }
+
+    return _search(sum, arr)
   }
 
   console.time('searchTime')
