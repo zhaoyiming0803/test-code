@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>addEventListener message and requestAnimationFrame</title>
+  <style>
+    .box {
+      width: 0;
+      height: 20px;
+      background-color: #ff0000;
+    }
+  </style>
+</head>
+<body>
+  <div class="box" id="box"></div>
+  <script>
+    // 观察下 chrome 开发者工具中的 Performace 栏目
+    // 注意每一帧都做了哪些操作
+    // animationTick -> 
+    // recalculate style -> 
+    // layout -> 
+    // update layer tree -> 
+    // paint -> 
+    // composite layers -> 
+    // idleTick
+    var width = 0
+    var box = document.querySelector('#box')
+    var messageKey = 'zymfeMessage'
+
+    window.addEventListener('message', event => {
+      if (event.source !== window || event.data !== messageKey) {
+        return
+      }
+      box.style.width = width + 'px'
+      console.log('render')
+      if (width < 200) {
+        requestAnimationFrame(animationTick)
+      }
+    }, false)
+
+    function idleTick (deadline) {
+      console.log('didTimeout: ', deadline.didTimeout)
+      console.log('timeRemaining: ', deadline.timeRemaining())
+    }
+
+    function animationTick (timestamp) {
+      console.log('timestamp: ', timestamp)
+      width += 1
+      window.postMessage(messageKey, '*')
+      requestIdleCallback(idleTick, {timestamp})
+    }
+
+    requestAnimationFrame(animationTick)
+  </script>
+</body>
+</html>
