@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>requestIdleCallback</title>
+</head>
+
+<body>
+  <script>
+    // https://developer.mozilla.org/zh-CN/docs/Web/API/Window/requestIdleCallback
+    // https://segmentfault.com/a/1190000014457824
+    
+    var tasks = [
+      () => console.log(0),
+      () => console.log(1),
+      () => console.log(2),
+      () => console.log(3),
+      () => console.log(4),
+      () => console.log(5),
+      () => console.log(6)
+    ]
+
+    function run(deadline) {
+      if (!tasks.length) {
+        return
+      }
+      
+      console.log('-------------------')
+      console.log('deadline: ', deadline)
+      console.log('didTimeout: ', deadline.didTimeout)
+      console.log('remaining: ', deadline.timeRemaining())
+  
+      if (!deadline.didTimeout) {
+        tasks.shift()()
+        window.requestIdleCallback(run, { timeout: 1000 })
+      }
+    }
+
+    window.requestIdleCallback(run, {timeout: 1000})
+  </script>
+</body>
+
+</html>
