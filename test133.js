@@ -9,7 +9,7 @@
     var startIdx = 0
     var endIdx = arr.length - 1
 
-    while (startIdx <= endIdx && startIdx !== endIdx) {
+    while (startIdx < endIdx) {
       if (arr[ startIdx ] >= sum) {
         startIdx += 1
       } else if (arr[ endIdx ] >= sum) {
@@ -27,7 +27,7 @@
   }
 
   console.time('searchTime')
-  console.log(search(21, [ 10, 20, 30, 40, 50, 60, 70, 1, 2, 76, 3, 5, 9, 24, 6, 4, 8, 7, 12, 12, 23, 13, 34, 56, 67, 34, 34, 45, 223, 123, 23, 32, 34, 45 ]))
+  console.log(search(32, [ 10, 20, 30, 40, 50, 60, 70, 1, 2, 76, 3, 5, 9, 24, 6, 4, 8, 7, 12, 12, 23, 13, 34, 56, 67, 34, 34, 45, 223, 123, 23, 32, 34, 45 ]))
   console.timeEnd('searchTime')
 
 })();
