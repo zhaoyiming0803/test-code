@@ -23,10 +23,17 @@
     // update layer tree -> 
     // paint -> 
     // composite layers -> 
-    // idleTick
+    // MessageChannel ->
+    // idleTick (最后每一帧剩下的空余时间)
     var width = 0
     var box = document.querySelector('#box')
     var messageKey = 'zymfeMessage'
+    var channel = new MessageChannel()
+    var port = channel.port2
+
+    channel.port1.onmessage = function (event) {
+      console.log('MessageChannel Event: ', event)
+    }
 
     window.addEventListener('message', event => {
       if (event.source !== window || event.data !== messageKey) {
@@ -47,8 +54,9 @@
     function animationTick (timestamp) {
       console.log('timestamp: ', timestamp)
       width += 1
-      window.postMessage(messageKey, '*')
       requestIdleCallback(idleTick, {timestamp})
+      port.postMessage(undefined)
+      window.postMessage(messageKey, '*')
     }
 
     requestAnimationFrame(animationTick)
