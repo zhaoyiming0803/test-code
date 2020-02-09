@@ -33,7 +33,7 @@
   console.log(firstNode)
 
   function insertNode () {
-    var random = Math.random() * 10
+    var random = 0
     var newNode = createNewNode(random)
     var node = firstNode
     var next = null
@@ -44,6 +44,15 @@
       }
       node = node.next
     } while (node !== firstNode)
+
+    if (next === null) {
+      // latest
+      next = firstNode
+    } else if (next === firstNode) {
+      // earlest
+      firstNode = newNode
+    }
+
     var previous = next.previous
     previous.next = next.previous = newNode;
     newNode.previous = previous
