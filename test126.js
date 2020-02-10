@@ -5,13 +5,8 @@
     next();
     function next(value) {
       const res = g.next(value);
-      if (res.done) {
-        return res.value;
-      }
-      if (typeof res.value.then === 'function' && res) {
-        res.value.then(data => {
-          next(data);
-        });
+      if (res && !res.done && typeof res.value.then === 'function') {
+        res.value.then(data => next(data));
       }
     }
   }
