@@ -2,6 +2,9 @@
 
   const { DoubleLoopLinkList, Node } = require('./test138')
 
+  /**
+   * 先进先出算法
+   */
   function FIFOCache () {
     this.link = new DoubleLoopLinkList()
     this.list = this.initList()
@@ -25,8 +28,8 @@
       return
     }
     if (this.size >= this.max) {
-      this.link.pop()
-      this.list.pop()
+      this.link.shift()
+      this.list.shift()
       this.size--
     }
     const node = new Node(value)
@@ -51,13 +54,13 @@
   console.log(cache.list)
   console.log(cache.link)
   console.log(cache.size)
-  cache.add(5)
-  console.log(cache.list)
-  console.log(cache.link)
-  console.log(cache.size)
-  cache.remove(5)
-  console.log(cache.list)
-  console.log(cache.link)
-  console.log(cache.size)
+  // cache.add(5)
+  // console.log(cache.list)
+  // console.log(cache.link)
+  // console.log(cache.size)
+  // cache.remove(5)
+  // console.log(cache.list)
+  // console.log(cache.link)
+  // console.log(cache.size)
 
 })();
