@@ -9,6 +9,7 @@
   function DoubleLoopLinkList () {
     this.firstNode = null
     this.init()
+    this.size = 10
   }
 
   DoubleLoopLinkList.prototype.init = function () {
@@ -35,6 +36,7 @@
     node.next = firstNode
     previous.next = node
     firstNode.previous = node
+    this.size++
   }
 
   DoubleLoopLinkList.prototype.pop = function popNode () {
@@ -42,6 +44,7 @@
     const lastNode = firstNode.previous
     firstNode.previous = lastNode.previous
     lastNode.previous.next = firstNode
+    this.size--
     return lastNode
   }
 
@@ -53,6 +56,7 @@
     node.next = firstNode.next
     firstNode.next.previous = node
     this.firstNode = node
+    this.size++
   }
 
   DoubleLoopLinkList.prototype.shift = function shiftNode () {
@@ -61,6 +65,7 @@
     lastNode.next = firstNode.next
     firstNode.next.previous = lastNode
     this.firstNode = lastNode.next
+    this.size--
     return firstNode
   }
 
@@ -80,6 +85,7 @@
       newNode.previous = node
       newNode.next = next
     }
+    this.size++
   }
 
   /**
@@ -100,6 +106,7 @@
     const next = node.next
     previous.next = next
     next.previous = previous
+    this.size--
     return node
   }
 
@@ -120,6 +127,6 @@
   doubleLoopLink.pop()
   doubleLoopLink.unshift(new Node(12345))
   doubleLoopLink.shift()
-  console.log(doubleLoopLink)
+  console.log(doubleLoopLink.size)
 
 })();
