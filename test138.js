@@ -83,8 +83,8 @@ const link = (function () {
       node.next = next.previous = newNode
       newNode.previous = node
       newNode.next = next
+      this.size++
     }
-    this.size++
   }
 
   /**
@@ -113,19 +113,18 @@ const link = (function () {
     let node = this.firstNode
     do {
       if (node.value === value) {
-        break
+        return node
       }
       node = node.next
     } while (node !== this.firstNode)
 
-    return node === this.firstNode ? null : node
+    if (node === this.firstNode) {
+      return null
+    }
   }
 
   return { DoubleLoopLinkList, Node }
 
 })();
-
-const doubleLink = new link.DoubleLoopLinkList()
-console.log(doubleLink)
 
 module.exports = link
