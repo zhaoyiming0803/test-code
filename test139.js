@@ -23,7 +23,7 @@
     return list
   }
 
-  FIFOCache.prototype.add = function addCache (value) {
+  FIFOCache.prototype.put = function putCache (value) {
     if (this.list.find(node => node.value === value)) {
       return
     }
@@ -50,11 +50,11 @@
   }
 
   const cache = new FIFOCache()
-  cache.add(200)
+  cache.put(200)
   console.log(cache.list)
   console.log(cache.link)
   console.log(cache.size)
-  // cache.add(5)
+  // cache.put(5)
   // console.log(cache.list)
   // console.log(cache.link)
   // console.log(cache.size)
