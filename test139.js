@@ -6,7 +6,7 @@
     this.link = new DoubleLoopLinkList()
     this.list = this.initList()
     this.size = this.link.size
-    this.max = 11
+    this.max = 10
   }
 
   FIFOCache.prototype.initList = function initList () {
@@ -24,17 +24,15 @@
     if (this.list.find(node => node.value === value)) {
       return
     }
-    if (this.size === this.max) {
-      this.link.shift()
-      this.list.shift()
+    if (this.size >= this.max) {
+      this.link.pop()
+      this.list.pop()
       this.size--
-      this.link.size--
     }
     const node = new Node(value)
     this.link.push(node)
     this.list.push(node)
     this.size++
-    this.link.size++
   }
 
   FIFOCache.prototype.remove = function removeCache (value) {
@@ -49,17 +47,17 @@
   }
 
   const cache = new FIFOCache()
-  cache.add(100)
+  cache.add(200)
   console.log(cache.list)
   console.log(cache.link)
   console.log(cache.size)
-  cache.add(5)
-  console.log(cache.list)
-  console.log(cache.link)
-  console.log(cache.size)
-  cache.remove(5)
-  console.log(cache.list)
-  console.log(cache.link)
-  console.log(cache.size)
+  // cache.add(5)
+  // console.log(cache.list)
+  // console.log(cache.link)
+  // console.log(cache.size)
+  // cache.remove(5)
+  // console.log(cache.list)
+  // console.log(cache.link)
+  // console.log(cache.size)
 
 })();
