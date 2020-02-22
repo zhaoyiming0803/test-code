@@ -1,4 +1,4 @@
-; (function () {
+const DoubleLoopLinkList = (function () {
 
   function Node (expirationTime) {
     this.expirationTime = expirationTime
@@ -122,11 +122,8 @@
     return node === this.firstNode ? null : node
   }
 
-  const doubleLoopLink = new DoubleLoopLinkList()
-  doubleLoopLink.push(new Node(Math.random()))
-  doubleLoopLink.pop()
-  doubleLoopLink.unshift(new Node(12345))
-  doubleLoopLink.shift()
-  console.log(doubleLoopLink.size)
+  return DoubleLoopLinkList
 
 })();
+
+module.exports = DoubleLoopLinkList
