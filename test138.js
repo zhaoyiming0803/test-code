@@ -6,18 +6,17 @@ const link = (function () {
     this.previous = null
   }
 
-  function DoubleLoopLinkList () {
+  function DoubleLoopLinkList (size = 10) {
     this.firstNode = null
-    this.init()
-    this.size = 10
+    this.init(size)
+    this.size = size
   }
 
-  DoubleLoopLinkList.prototype.init = function () {
-    const MAX = 9
-    let num = 0
+  DoubleLoopLinkList.prototype.init = function (size) {
+    let num = 1
     let node = this.firstNode || (this.firstNode = new Node(num))
     while (node.next === null) {
-      if (num >= MAX) {
+      if (num >= size) {
         node.next = this.firstNode
         this.firstNode.previous = node
         break
@@ -125,5 +124,8 @@ const link = (function () {
   return { DoubleLoopLinkList, Node }
 
 })();
+
+const doubleLink = new link.DoubleLoopLinkList()
+console.log(doubleLink)
 
 module.exports = link
