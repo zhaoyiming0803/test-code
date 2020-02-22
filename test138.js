@@ -1,7 +1,7 @@
 const DoubleLoopLinkList = (function () {
 
-  function Node (expirationTime) {
-    this.expirationTime = expirationTime
+  function Node (value) {
+    this.value = value
     this.next = null
     this.previous = null
   }
@@ -72,8 +72,8 @@ const DoubleLoopLinkList = (function () {
   /**
    * 任意位置后面添加节点
    */
-  DoubleLoopLinkList.prototype.add = function addNode (expirationTime, newNode) {
-    const node = this.findNodeByExpirationTime(expirationTime)
+  DoubleLoopLinkList.prototype.add = function addNode (value, newNode) {
+    const node = this.findNode(value)
     if (node === null) {
       return
     }
@@ -91,8 +91,8 @@ const DoubleLoopLinkList = (function () {
   /**
    * 任意位置移出节点
    */
-  DoubleLoopLinkList.prototype.remove = function removeNode (expirationTime) {
-    const node = this.findNodeByExpirationTime(expirationTime)
+  DoubleLoopLinkList.prototype.remove = function removeNode (value) {
+    const node = this.findNode(value)
     if (node === null) {
       return null
     }
@@ -110,10 +110,10 @@ const DoubleLoopLinkList = (function () {
     return node
   }
 
-  DoubleLoopLinkList.prototype.findNodeByExpirationTime = function findNodeByExpirationTime (expirationTime) {
+  DoubleLoopLinkList.prototype.findNode = function findNode (value) {
     let node = this.firstNode
     do {
-      if (node.expirationTime === expirationTime) {
+      if (node.value === value) {
         break
       }
       node = node.next
