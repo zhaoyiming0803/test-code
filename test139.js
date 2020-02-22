@@ -28,11 +28,13 @@
       this.link.shift()
       this.list.shift()
       this.size--
+      this.link.size--
     }
     const node = new Node(value)
     this.link.push(node)
     this.list.push(node)
     this.size++
+    this.link.size++
   }
 
   FIFOCache.prototype.remove = function removeCache (value) {
@@ -49,12 +51,15 @@
   const cache = new FIFOCache()
   cache.add(100)
   console.log(cache.list)
+  console.log(cache.link)
   console.log(cache.size)
   cache.add(5)
   console.log(cache.list)
+  console.log(cache.link)
   console.log(cache.size)
   cache.remove(5)
   console.log(cache.list)
+  console.log(cache.link)
   console.log(cache.size)
 
 })();
