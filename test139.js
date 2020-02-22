@@ -8,7 +8,6 @@
   function FIFOCache () {
     this.link = new DoubleLoopLinkList()
     this.list = this.initList()
-    this.size = this.link.size
     this.max = 10
   }
 
@@ -27,15 +26,13 @@
     if (this.list.find(node => node.value === value)) {
       return
     }
-    if (this.size >= this.max) {
+    if (this.list.length >= this.max) {
       this.link.shift()
       this.list.shift()
-      this.size--
     }
     const node = new Node(value)
     this.link.push(node)
     this.list.push(node)
-    this.size++
   }
 
   FIFOCache.prototype.remove = function removeNode (value) {
@@ -46,21 +43,17 @@
     const _value = this.list[index]
     this.link.remove(_value)
     this.list.splice(index, 1)
-    this.size--
   }
 
   const cache = new FIFOCache()
   cache.put(200)
   console.log(cache.list)
   console.log(cache.link)
-  console.log(cache.size)
   // cache.put(5)
   // console.log(cache.list)
   // console.log(cache.link)
-  // console.log(cache.size)
   // cache.remove(5)
   // console.log(cache.list)
   // console.log(cache.link)
-  // console.log(cache.size)
 
 })();
