@@ -1,4 +1,4 @@
-const DoubleLoopLinkList = (function () {
+const link = (function () {
 
   function Node (value) {
     this.value = value
@@ -122,8 +122,8 @@ const DoubleLoopLinkList = (function () {
     return node === this.firstNode ? null : node
   }
 
-  return DoubleLoopLinkList
+  return { DoubleLoopLinkList, Node }
 
 })();
 
-module.exports = DoubleLoopLinkList
+module.exports = link
