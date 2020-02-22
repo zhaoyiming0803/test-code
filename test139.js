@@ -23,7 +23,7 @@
     return list
   }
 
-  FIFOCache.prototype.put = function putCache (value) {
+  FIFOCache.prototype.put = function putNode (value) {
     if (this.list.find(node => node.value === value)) {
       return
     }
@@ -38,7 +38,7 @@
     this.size++
   }
 
-  FIFOCache.prototype.remove = function removeCache (value) {
+  FIFOCache.prototype.remove = function removeNode (value) {
     const index = this.list.findIndex(node => node.value === value)
     if (index === -1) {
       return
