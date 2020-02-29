@@ -15,6 +15,6 @@
         return arr.reverse().join('');
     }
 
-    console.log(diviceByBase(2, 2));
+    console.log(diviceByBase(100, 2));
 
 })();
