@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <div id="root"></div>
+
+  <script src="./dist/virtual-dom.js"></script>
+  <script>
+    ;(function (window, document) {
+
+      console.log('virtualDom: ', virtualDom)
+
+      const { VNode, VText, diff, create, patch } = virtualDom
+
+      const aVTree = function render() {
+        return new VNode('div', {
+          className: "a"
+        }, [
+          new VText("Hello")
+        ], 'this is key', 'https://github.com/zymfe')
+      }
+
+      const aDom = create(aVTree())
+
+      const bVTree = function render(count) {
+        return new VNode('div', {
+          className: "a"
+        }, [
+          new VNode('div', {}, [
+            new VText(count)
+          ])
+        ]);
+      }
+
+      const bDom = create(bVTree())
+
+      console.log('a: ', aVTree())
+      console.log('b: ', bVTree())
+      console.log('aDom: ', aDom)
+      console.log('bDom: ', bDom)
+
+      const root = document.querySelector('#root')
+      root.append(aDom)
+
+      let count = 0
+      let timer = setInterval(() => {
+        if (count >= 3) {
+          clearInterval(timer)
+          timer = null
+        } else {
+          // 先找出所有被修改的地方
+          const patches = diff(aVTree(), bVTree(count++))
+          console.log('patches: ', patches)
+          // 全部 patch
+          console.log('rootNode: ', patch(aDom, patches))
+        }
+      }, 1000)
+
+    })(window, document)
+  </script>
+</body>
+
+</html>
