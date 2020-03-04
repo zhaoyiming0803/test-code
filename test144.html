@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+    }
+
+    .wrapper {
+      width: 300px;
+      height: 100px;
+      overflow: hidden;
+    }
+
+    #img {
+      width: 100%;
+      height: 100%;
+    }
+
+    .btns {
+      display: flex;
+    }
+
+    .btns .left, .btns .right {
+      flex: 1;
+      cursor: pointer;
+      color: white;
+      text-align: center;
+    }
+
+    .btns .left {
+      background-color: red;
+    }
+
+    .btns .right {
+      background-color: blue;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="wrapper">
+    <img src="" id="img">
+  </div>
+
+  <div class="btns">
+    <div class="left" id="left">-</div>
+    <div class="right" id="right">+</div>
+  </div>
+
+  <script>
+    ;(function (window, document) {
+      var arr = [
+        'http://attach.bbs.miui.com/forum/201401/11/145825zn1sxa8anrg11gt1.jpg',
+        'http://attach.bbs.miui.com/forum/201111/21/205700txzuacubbcy91u99.jpg',
+        'http://attach.bbs.miui.com/forum/201311/17/174124tp3sa6vvckc25oc8.jpg',
+        'http://attach.bbs.miui.com/forum/201311/07/092441ln1zfzdqf92ded65.jpg',
+        'http://cdn.duitang.com/uploads/item/201211/21/20121121100635_yPV3U.jpeg',
+        'http://pic1.win4000.com/wallpaper/b/55597435bb036.jpg',
+        'http://bbsfiles.vivo.com.cn/vivobbs/attachment/forum/201601/24/175433rossj7cn74vksn4p.jpg',
+        'http://attach.bbs.miui.com/forum/201304/25/195151szk8umd8or8fmfa5.jpg',
+        'http://attach.bbs.miui.com/forum/201408/07/194456i55q58pqnb55fi88.jpg',
+        'http://attach.bbs.miui.com/forum/201105/17/113554rnu40q7nbgnn3lgq.jpg',
+        'http://e.hiphotos.baidu.com/zhidao/pic/item/b64543a98226cffc7a951157b8014a90f703ea9c.jpg',
+        'http://00.minipic.eastday.com/20170821/20170821133945_d41d8cd98f00b204e9800998ecf8427e_1.jpeg'
+      ]
+      var index = 0
+      var total = arr.length
+
+      var img = document.querySelector('#img')
+      img.src = arr[index]
+
+      function increase () {
+        if (index === total - 1) {
+          index = 0
+        } else {
+          index++
+        }
+      }
+
+      function reduce () {
+        if (index === 0) {
+          index = total - 1
+        } else {
+          index--
+        }
+      }
+
+      function change () {
+        img.src = arr[index]
+      }
+
+      var left = document.querySelector('#left')
+      var right = document.querySelector('#right')
+
+      left.onclick = function onClickLeft () {
+        reduce()
+        change()
+      }
+
+      right.onclick = function onClickRight () {
+        increase()
+        change()
+      }
+    })(window, document)
+  </script>
+</body>
+</html>
