@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>this is title</title>
+</head>
+
+<body>
+  <script>
+    ; (function (window) {
+      function extend(a, b) {
+        for (var key in b) {
+          a[ key ] = b[ key ];
+        }
+        return a
+      }
+
+      // 打开新页面，退回旧页面，是浏览器执行了入栈出栈的操作
+      // 当前页面的 history.state 上可以自定义 key value，用来标记属于当前页面的某些数据或缓存
+      // 这就是 VueRouter 实现 scrollBehavior 的原理
+
+      const protocolAndPath = window.location.protocol + '//' + window.location.host
+      const absolutePath = window.location.href.replace(protocolAndPath, '')
+      const stateCopy = extend({}, window.history.state)
+      stateCopy.key = window.performance.now().toFixed(3)
+      window.history.replaceState(stateCopy, '', absolutePath)
+      
+      console.log('absolutePath: ', absolutePath)
+      console.log('stateCopy: ', stateCopy)
+
+      window.addEventListener('popstate', e => {
+        console.log('---popState---')
+        console.log('e: ', e)
+        console.log('href: ', window.location.href)
+        console.log('---popState---')
+      })
+      
+      setTimeout(() => {
+        console.log('---pushState---')
+        window.history.pushState({key: 1111}, 'new title', '?page=1')
+        console.log('---pushState---')
+      }, 1000)
+
+      setTimeout(() => {
+        window.history.back()
+
+        setTimeout(() => {
+          window.history.forward()
+        }, 2000)
+      }, 3000)
+    })(window);
+  </script>
+</body>
+
+</html>
