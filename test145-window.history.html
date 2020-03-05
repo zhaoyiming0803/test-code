@@ -5,17 +5,49 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>this is title</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+    }
+    body {
+      height: 2000px;
+    }
+    .btns {
+      display: flex;
+      width: 100%;
+      height: 100%;
+    }
+    .btn {
+      flex: 1;
+      height: 100%;
+    }
+    .left {
+      background-color: red;
+    }
+    .right {
+      background-color: blue;
+    }
+  </style>
 </head>
 
 <body>
+
+  <div class="btns">
+    <div id="forward" class="left btn">forward</div>
+    <div id="back" class="right btn">back</div>
+  </div>
+
   <script>
-    ; (function (window) {
+    ; (function (window, document) {
       function extend(a, b) {
         for (var key in b) {
           a[ key ] = b[ key ];
         }
         return a
       }
+
+      const positionStore = {}
 
       // 打开新页面，退回旧页面，是浏览器执行了入栈出栈的操作
       // 当前页面的 history.state 上可以自定义 key value，用来标记属于当前页面的某些数据或缓存
@@ -30,27 +62,38 @@
       console.log('absolutePath: ', absolutePath)
       console.log('stateCopy: ', stateCopy)
 
+      positionStore[window.history.state.key] = {
+        x: 0,
+        y: 1000
+      }
+      setTimeout(() => {
+        window.scrollTo(0, 1000)
+      });
+
       window.addEventListener('popstate', e => {
         console.log('---popState---')
         console.log('e: ', e)
         console.log('href: ', window.location.href)
         console.log('---popState---')
+        const position = positionStore[window.history.state.key]
+        console.log('position: ', position)
+        if (position) {
+          window.scrollTo(position.x, position.y)
+        }
       })
-      
-      setTimeout(() => {
-        console.log('---pushState---')
+
+      const forward = document.querySelector('#forward')
+      const back = document.querySelector('#back')
+
+      forward.onclick = () => {
         window.history.pushState({key: 1111}, 'new title', '?page=1')
-        console.log('---pushState---')
-      }, 1000)
-
-      setTimeout(() => {
+        window.scrollTo(0, 0)
+      }
+      
+      back.onclick = () => {
         window.history.back()
-
-        setTimeout(() => {
-          window.history.forward()
-        }, 2000)
-      }, 3000)
-    })(window);
+      }
+    })(window, document);
   </script>
 </body>
 
