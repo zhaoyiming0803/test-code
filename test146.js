@@ -45,9 +45,6 @@
         component: route.component
       }
       if (parent) {
-        if (route.path.charAt(0) === '/') {
-          
-        }
         record.path = `${parent.path}/${normalizeChildPath(route.path)}`
       }
       matcher[record.path] = record
