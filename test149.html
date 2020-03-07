@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <div id="wrapper1"></div>
+  <div>------------------------</div>
+  <div id="wrapper2"></div>
+
+  <script>
+    ;(function (window, document) {
+      var wrapper1 = document.querySelector('#wrapper1')
+      var wrapper2 = document.querySelector('#wrapper2')
+
+      var ele1 = document.createElement('div')
+      ele1.innerText = 'Hello'
+
+      var ele2 = document.createElement('div')
+      ele2.innerText = 'World'
+
+      // append 能添加多个元素
+      wrapper1.append(ele1, ele2)
+
+      // appendChild 只能添加一个元素
+      // wrapper2.appendChild(ele1)
+    })(window, document);
+  </script>
+</body>
+</html>
