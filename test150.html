@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <div id="wrapper" class="wrapper box" a="a" data-b="b"></div>
+
+  <script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.min.js"></script>
+  <script>
+    ;(function (window, document) {
+      var wrapper = document.querySelector('#wrapper')
+      console.log('wrapper: ', wrapper)
+      console.log("wrapper.getAttribute('class'): ", wrapper.getAttribute('class')) // wrapper box
+      console.log("wrapper.getAttribute('a'): ", wrapper.getAttribute('a')) // a
+      console.log("wrapper.getAttribute('data-b'): ", wrapper.getAttribute('data-b')) // b
+      console.log("wrapper.className: ", ) // wrapper box
+
+      console.log('-------------')
+
+      var $wrapper = $('#wrapper')
+      console.log("$wrapper: ", $wrapper)
+      console.log("$wrapper.prop('id'): ", $wrapper.prop('id')) // wrapper
+      console.log("$wrapper.attr('id'): ", $wrapper.attr('id')) // wrapper
+      console.log("$wrapper.prop('class'): ", $wrapper.prop('class')) // wrapper box
+      console.log("$wrapper.attr('class'): ", $wrapper.attr('class')) // wrapper box
+      console.log("$wrapper.prop('data-b'): ", $wrapper.prop('data-b')) // undefined
+      console.log("$wrapper.attr('data-b'): ", $wrapper.attr('data-b')) // b
+      console.log("$wrapper.prop('a'): ", $wrapper.prop('a')) // undefined
+      console.log("$wrapper.attr('a'): ", $wrapper.attr('a')) // a
+
+      $wrapper.prop('customer-a', 'customer-a')
+      console.log("$wrapper.prop('customer-a'): ", $wrapper.prop('customer-a')) // customer-a
+      console.log("$wrapper.attr('customer-a'): ", $wrapper.attr('customer-a')) // undefined
+
+      $wrapper.attr('data-bbb', 'data-bbb')
+      console.log("$wrapper.prop('data-bbb'): ", $wrapper.prop('data-bbb')) // undefined
+      console.log("$wrapper.attr('data-bbb'): ", $wrapper.attr('data-bbb')) // data-bbb
+
+      console.log("$wrapper.prop('id'): ", $wrapper.prop('id')) // wrapper
+      console.log("$wrapper.attr('id'): ", $wrapper.attr('id')) // wrapper
+    })(window, document);
+  </script>
+</body>
+</html>
