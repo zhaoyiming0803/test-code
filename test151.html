@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+    }
+    #wrapper {
+      width: 100px;
+      height: 100px;
+      border: 1px solid red;
+      padding: 10px 10px;
+      margin: 50px 50px;
+    }
+  </style>
+</head>
+<body>
+  <div id="wrapper"></div>
+  <script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.min.js"></script>
+  <script>
+    ;(function (window, document) {
+      var wrapper = document.querySelector('#wrapper')
+      console.log("wrapper.offsetWidth: ", wrapper.offsetWidth) // 122
+      console.log("wrapper.clientWidth: ", wrapper.clientWidth) // 120
+      console.log("wrapper.getBoundingClientRect(): ", wrapper.offsetLeft) // 50
+      console.log("wrapper.getBoundingClientRect(): ", wrapper.getBoundingClientRect())
+      console.log("wrapper.currentStyle: ", wrapper.currentStyle) // undefined
+      console.log("document.defaultView.getComputedStyle(wrapper,null)['marginTop']: ", document.defaultView.getComputedStyle(wrapper,null)['marginTop']) // 50px
+      console.log("document.defaultView.getComputedStyle(wrapper,null)['borderLeft']: ", document.defaultView.getComputedStyle(wrapper,null)['borderLeft']) // 1px solid rgb(255, 0, 0)
+      console.log("document.defaultView.getComputedStyle(wrapper,null)['paddingLeft']: ", document.defaultView.getComputedStyle(wrapper,null)['paddingLeft']) // 10px
+
+      var $wrapper = $('#wrapper')
+      console.log("$wrapper.width(): ", $wrapper.width()) // 100
+    })(window, document);
+  </script>
+</body>
+</html>
