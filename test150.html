@@ -6,7 +6,7 @@
   <title>Document</title>
 </head>
 <body>
-  <div id="wrapper" class="wrapper box" a="a" data-b="b"></div>
+  <div id="wrapper" class="wrapper box" a="a" data-b="b" data-c="c"></div>
 
   <script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.min.js"></script>
   <script>
@@ -16,6 +16,9 @@
       console.log("wrapper.getAttribute('class'): ", wrapper.getAttribute('class')) // wrapper box
       console.log("wrapper.getAttribute('a'): ", wrapper.getAttribute('a')) // a
       console.log("wrapper.getAttribute('data-b'): ", wrapper.getAttribute('data-b')) // b
+      console.log("wrapper.dataset: ", wrapper.dataset) // DOMStringMap
+      console.log("wrapper.dataset.a: ", wrapper.dataset.a) // undefined
+      console.log("wrapper.dataset.b: ", wrapper.dataset.b) // b
       console.log("wrapper.className: ", ) // wrapper box
 
       console.log('-------------')
