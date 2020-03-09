@@ -58,14 +58,17 @@
   }
 
   function createStore (options) {
-    const store = {}
+    const store = {
+      _mutations: Object.create(null),
+      _actions: Object.create(null)
+    }
     installModule(store, options, [])
     return store
   }
 
   function installModule (store, options, path) {
     const namespace = getNamespace(path)
-    registerMutation(store, options, namespace, path)
+    registerStore(store, options, namespace, path)
   }
 
   function getNamespace (path) {
@@ -74,10 +77,10 @@
       : ''
   }
 
-  function registerMutation (store, options, namespace, path) {
-    forEachValue(store, namespace, options.state)
-    forEachValue(store, namespace, options.mutations)
-    forEachValue(store, namespace, options.actions)
+  function registerStore (store, options, namespace, path) {
+    forEachState(store, namespace, options.state)
+    forEachMutation(store, namespace, options.mutations)
+    forEachAction(store, namespace, options.actions)
 
     if (options.modules) {
       Object.keys(options.modules).forEach(key => {
@@ -86,7 +89,7 @@
     }
   }
 
-  function forEachValue (store, namespace, value) {
+  function forEachState (store, namespace, value) {
     if (!value) return 
 
     const obj = !namespace
@@ -96,6 +99,38 @@
     Object.keys(value).forEach(key => {
       obj[key] = value[key]
     })
+  }
+
+  function forEachMutation (store, namespace, value) {
+    if (!value) return
+
+    if (namespace) {
+      const list = store._mutations[namespace] || (store._mutations[namespace] = [])
+      Object.keys(value).forEach(key => {
+        list.push(value[key])
+      })
+    } else {
+      const _mutations = store._mutations
+      Object.keys(value).forEach(key => {
+        _mutations[key] = value[key]
+      })
+    }
+  }
+
+  function forEachAction (store, namespace, value) {
+    if (!value) return
+
+    if (namespace) {
+      const list = store._actions[namespace] || (store._actions[namespace] = [])
+      Object.keys(value).forEach(key => {
+        list.push(value[key])
+      })
+    } else {
+      const _actions = store._actions
+      Object.keys(value).forEach(key => {
+        _actions[key] = value[key]
+      })
+    }
   }
 
   const store = createStore(options)
