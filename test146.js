@@ -1,5 +1,7 @@
 ; (function () {
 
+  // mock vue router data struct
+
   const routes = [
     {
       path: '/',
