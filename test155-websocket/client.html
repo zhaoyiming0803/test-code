@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <input type="text" id="input">
+
+  <script>
+    ; (function (window, document) {
+      var input = document.querySelector('#input')
+
+      var wsServer = 'ws://localhost:3000'
+      var websocket = new WebSocket(wsServer)
+      websocket.onopen = onOpen
+      websocket.onclose = onClose
+      websocket.onmessage = onMessage
+      websocket.onerror = onError
+
+      function onOpen(evt) {
+        console.log("Connected to WebSocket server.")
+        websocket.send('hello world')
+      }
+
+      function onClose(evt) {
+        console.log("Disconnected")
+      }
+
+      function onMessage(evt) {
+        console.log('Retrieved data from server: ' + evt.data)
+        input.value = evt.data
+      }
+
+      function onError(evt) {
+        console.log('Error occured: ' + evt.data)
+      }
+    })(window, document);
+  </script>
+</body>
+
+</html>
