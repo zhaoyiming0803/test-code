@@ -7,14 +7,14 @@
   <title>WebSocket</title>
 </head>
 <body>
-  <div id="box">60</div>
+  <div id="box"></div>
 
   <script>
     ;(function (window, document) {
       var box = document.querySelector('#box')
       var w = new Worker('countdown.js');
 
-      w.postMessage(60);
+      w.postMessage([10, 9, 8, 7]);
 
       w.onmessage = function (event) {
         box.innerHTML = event.data;
