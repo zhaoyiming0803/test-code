@@ -4,10 +4,12 @@
     var context = arguments[0];
     context.fn = this;
 
-    var args = [];
-    for (var i = 1; i < arguments.length; i += 1) {
-      args.push(arguments[i]);
-    }
+    // var args = [];
+    // for (var i = 1; i < arguments.length; i += 1) {
+    //   args.push(arguments[i]);
+    // }
+
+    var args = [].slice.call(arguments, 1);
 
     var res = eval('context.fn(' + args.join(',') + ')');
 
