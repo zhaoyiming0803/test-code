@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>WebSocket</title>
+</head>
+<body>
+  <div id="box">60</div>
+
+  <script>
+    ;(function (window, document) {
+      var box = document.querySelector('#box')
+      var w = new Worker('countdown.js');
+
+      w.postMessage(60);
+
+      w.onmessage = function (event) {
+        box.innerHTML = event.data;
+      }
+    })(window, document);
+  </script>
+
+</body>
+</html>
