@@ -1,5 +1,7 @@
+let timeArr = []
+
 self.onmessage = event => {
-  let timeArr = event.data
+  timeArr = timeArr.concat(event.data)
 
   let timer = setInterval(() => {
     let isComplete = true

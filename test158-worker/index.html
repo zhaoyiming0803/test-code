@@ -19,6 +19,11 @@
       w.onmessage = function (event) {
         box.innerHTML = event.data;
       }
+
+      // 假设 2s 之后，下拉获取到更多数据
+      setTimeout(() => {
+        w.postMessage([60, 50, 40, 30]);
+      }, 2000)
     })(window, document);
   </script>
 
