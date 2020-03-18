@@ -100,7 +100,7 @@
         const res = {};
         const styleArr = style
           .replace(/\s+/g, '')
-          .replace(/-([a-z]):/g, ($0, $1) => $1.toUpperCase())
+          .replace(/-([a-z])/g, ($0, $1) => $1.toUpperCase())
           .split(';');
         styleArr.forEach(item => {
           const arr = item.split(':');
