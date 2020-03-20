@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <script>
+    function printInfo(info) {
+      console.log('info: ', info)
+    }
+  </script>
+  <script>
+    ; (function (window, document) {
+      var script = document.createElement('script')
+      script.src = 'http://localhost:3001?a=1&b=2&c=3&callback=printInfo'
+      document.body.append(script)
+    })(window, document);
+  </script>
+</body>
+
+</html>
