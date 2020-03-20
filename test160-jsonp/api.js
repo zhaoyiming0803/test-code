@@ -2,7 +2,6 @@ const http = require('http')
 
 const server = http.createServer((req, res) => {
   // /?a=1&b=2&c=3&callback=printInfo
-  const query = {}
   const markIndex = req.url.indexOf('?')
   if (markIndex === -1) {
     res.writeHead(500)
@@ -10,10 +9,10 @@ const server = http.createServer((req, res) => {
     return
   }
 
+  const query = {}
   req.url.slice(markIndex+1).replace(/([a-z]+)=(\w+)/g, ($0, $1, $2) => {
     query[$1] = $2
   })
-
   res.writeHead(200)
   res.end(`${query.callback}` + '(' + JSON.stringify({
     name: 'zhaoyiming',
