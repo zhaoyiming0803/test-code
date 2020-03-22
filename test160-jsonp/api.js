@@ -13,6 +13,7 @@ const server = http.createServer((req, res) => {
   req.url.slice(markIndex+1).replace(/([a-z]+)=(\w+)/g, ($0, $1, $2) => {
     query[$1] = $2
   })
+  console.log('query: ', query)
   res.writeHead(200)
   res.end(`${query.callback}` + '(' + JSON.stringify({
     name: 'zhaoyiming',

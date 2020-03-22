@@ -8,16 +8,24 @@
 </head>
 
 <body>
+  <button id="btn">click me</button>
+
   <script>
     function printInfo(info) {
       console.log('info: ', info)
     }
   </script>
+
   <script>
     ; (function (window, document) {
-      var script = document.createElement('script')
-      script.src = 'http://localhost:3001?a=1&b=2&c=3&callback=printInfo'
-      document.body.append(script)
+      var btn = document.querySelector('#btn')
+      // 打点时，不需要callback，发数据发送给后端即可
+      btn.onclick = e => {
+        var script = document.createElement('script')
+        script.src = 'http://localhost:3001?a=1&b=2&c=3&callback=printInfo'
+        document.body.append(script)
+        window.location.href = 'https://www.baidu.com'
+      }
     })(window, document);
   </script>
 </body>
