@@ -4,6 +4,8 @@
 
 ;(function () {
 
+  return
+
   var n = 1;
 
   function fn () {
@@ -29,5 +31,26 @@
   console.log(fn())
 
   eval('var a = 1; var b = 2; console.log(a+b)')
+
+})();
+
+;(function () {
+
+  var str = 'var r = []; for (var i = 0; i < data.length; i++) {r.push(data[i])} return r;'
+  
+  var data = [{
+    id: 1,
+    name: 'zhangsan'
+  }, {
+    id: 2,
+    name: 'lisi'
+  }, {
+    id: 3,
+    name: 'wangwu'
+  }]
+  var fn = new Function('data', str)
+  var res = fn(data)
+  console.log(res)
+  console.log(Object.prototype.toString.call(res))
 
 })();
