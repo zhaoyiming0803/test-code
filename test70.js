@@ -54,3 +54,21 @@
   console.log(Object.prototype.toString.call(res))
 
 })();
+
+;(function () {
+
+  // https://github.com/zymfe/ztpl
+
+  var str = 'var r = [];'
+  str += 'for (var i = 0; i < 3; i++) { '
+  str += 'r.push("<div>索引：");'
+  str += 'r.push(i);'
+  str += 'r.push("</div>");'
+  str += '};'
+  str += 'r.push("<p>hello template engine</p>");'
+  str += 'return r.join("")'
+
+  var fn = new Function(str)
+  console.log(fn())
+
+})();
