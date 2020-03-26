@@ -7,8 +7,12 @@
     next();
     function next(value) {
       const res = g.next(value);
-      if (res && !res.done && typeof res.value.then === 'function') {
-        res.value.then(data => next(data));
+      if (!res.done) {
+        if (Object.prototype.toString.call(res.value) === '[object Promise]') {
+          res.value.then(res => next(res))
+        } else {
+          next(res.value)
+        }
       }
     }
   }
