@@ -43,7 +43,7 @@
 //     .catch(console.error);
 // }, 10)
 
-const Pool = require('./worker-threads-pool/index')
+const Pool = require('async-worker-threads-pool')
 const pool = new Pool(1)
 
 function sum (value) {

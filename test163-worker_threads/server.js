@@ -3,7 +3,7 @@
 
 const http = require('http')
 
-const Pool = require('./worker-threads-pool/index')
+const Pool = require('async-worker-threads-pool')
 const pool = new Pool(2)
 
 function sum (value) {
