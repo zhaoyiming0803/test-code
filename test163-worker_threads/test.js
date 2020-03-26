@@ -22,23 +22,42 @@
 // setInterval(run, 1000)
 
 
-const { WorkerPool } = require('@shahidcodes/threadifier');
+// const { WorkerPool } = require('@shahidcodes/threadifier');
 
-const pool = new WorkerPool(1);
+// const pool = new WorkerPool(1);
 
-function runTask(args) {
-  let i = 0;
-  for (let index = 0; index < 10; index++) {
-    i++;
+// function runTask(args) {
+//   let i = 0;
+//   for (let index = 0; index < 10; index++) {
+//     i++;
+//   }
+//   return { i, args };
+// }
+
+// const args = { };
+
+// setInterval(() => {
+//   pool
+//     .queueTask(runTask, args)
+//     .then(result => console.log(`from worker:`, result))
+//     .catch(console.error);
+// }, 10)
+
+const Pool = require('./worker-threads-pool/index')
+const pool = new Pool(1)
+
+function sum (value) {
+  if (value === 0) {
+    return 0
   }
-  return { i, args };
+  return value + sum(value - 1)
 }
 
-const args = { };
+let num = 1000
 
 setInterval(() => {
   pool
-    .queueTask(runTask, args)
-    .then(result => console.log(`from worker:`, result))
-    .catch(console.error);
-}, 10)
+    .queueTask(sum, num++)
+    .then(res => console.log(res))
+    .catch(error => console.log(error))
+}, 1000)
