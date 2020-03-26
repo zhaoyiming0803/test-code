@@ -3,11 +3,11 @@ const { Worker } = require('worker_threads')
 class Pool {
   constructor (max) {
     this._max = max || 1
-    this._workerFile = `${__dirname}/worker-file.js`
-    this._workers = {};
-    this._activeWorkers = {};
-    this._queue = [];
-    this._init();
+    this._workerFile = `${ __dirname }/worker-file.js`
+    this._workers = {}
+    this._activeWorkers = {}
+    this._queue = []
+    this._init()
   }
 
   _init () {
@@ -74,8 +74,9 @@ class Pool {
     worker.removeAllListeners('message')
     worker.removeAllListeners('error')
     worker.removeAllListeners('exit')
-    if (this._queue.length > 0) {
-      this._runWorker(workerId, this._queue.shift())
+    const task = this._queue.shift()
+    if (task) {
+      this._runWorker(workerId, task)
     }
   }
 }

@@ -16,13 +16,13 @@
     }
 
     ;(function (window, document) {
-      let i = 1
+      let i = 100
       setInterval(() => {
         const script = document.createElement('script')
         document.body.appendChild(script)
         script.src = `http://localhost:3001?value=${i++}&callback=callback`
         document.body.removeChild(script)
-      }, 1000)
+      }, 1)
     })(window, document);
   </script>
 </body>
