@@ -1,35 +1,40 @@
-;(function () {
+(function () {
+  function quickSort(arr) {
+    if (arr.length <= 1) {
+      return arr;
+    }
 
-	function quickSort (arr) {
-		if (arr.length <= 1) {
-			return arr;
-		}
+    const middle = arr[0];
+    const left = [];
+    const right = [];
+    arr.slice(1).forEach((item) => {
+      if (item >= middle) right.push(item);
+      else left.push(item);
+    });
 
-		var left = [];
-		var right = [];
-		var middle = arr[0];
+    const _left = quickSort(left);
+    const _right = quickSort(right);
 
-		for (var i = 1; i < arr.length; i += 1) {
-			var cur = arr[i];
-			if (cur <= middle) left.push(cur);
-			else right.push(cur);
-		}
+    return _left.concat(middle, _right);
+  }
 
-		console.log('left', left);
-		var _left = quickSort(left);
-		console.log('_left', _left);
-
-		console.log('right', right);
-		var _right = quickSort(right);
-		console.log('_right', _right);
-
-		console.log('-------');
-		return _left.concat(middle, _right);
-	}
-
-	console.time('time');
-	var res = quickSort([22, 100, -99, 10, 1, 33, 0]);
-	console.timeEnd('time');
-	console.log(res);
-
+  console.time("time");
+  const res = quickSort([
+    1,
+    2,
+    -10,
+    -100,
+    99,
+    101,
+    102,
+    103,
+    104,
+    105,
+    9,
+    3,
+    5,
+    7,
+  ]);
+  console.timeEnd("time");
+  console.log(res);
 })();
