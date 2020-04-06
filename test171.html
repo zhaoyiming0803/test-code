@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <form
+      action="http://127.0.0.1"
+      method="post"
+      id="userForm"
+      enctype="application/x-www-form-urlencoded"
+    >
+      <div><input type="text" name="username" /></div>
+      <div><input type="text" name="password" /></div>
+      <div><button type="submit" id="submit">submit</button></div>
+    </form>
+    <div>
+      <button id="print">print form Data</button>
+    </div>
+    <script>
+      (function (window, document) {
+        var print = document.querySelector("#print");
+        var userForm = document.querySelector("#userForm");
+
+        print.onclick = () => {
+          var formData = new FormData(userForm);
+          formData.append("a", "a");
+          formData.append("b", "b");
+          console.log("formData.username: ", formData.getAll("username"));
+        };
+      })(window, document);
+    </script>
+  </body>
+</html>
