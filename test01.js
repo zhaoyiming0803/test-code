@@ -23,6 +23,7 @@
   }
 
   console.time("time");
-  console.log(bubbleSort(arr));
+  const res = bubbleSort(arr);
   console.timeEnd("time");
+  console.log(res);
 })();
