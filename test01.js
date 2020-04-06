@@ -1,29 +1,28 @@
-;(function () {
-  
-  console.time('time');
+(function () {
+  var arr = [1, 2, -10, -100, 99, 101, 102, 103, 104, 105, 9, 3, 5, 7];
 
-  var arr = [1, 2, -10, -100, 99, 101, 102, 103, 104, 105];
-
-  function bubbleSort (arr) {
-    var num = 0;
-    for (var i = 0; i < arr.length; i += 1) {
-      var mark = true;
-      for (var j = 0; j < arr.length - 1; j += 1) {
-        if (arr[j] > arr[j+1]) {
+  function bubbleSort(arr) {
+    const len = arr.length;
+    for (let i = 0; i < len; i++) {
+      let mark = true;
+      for (let j = 0; j < len - i; j++) {
+        if (arr[j] > arr[j + 1]) {
+          // arr[j] = arr.splice(j + 1, 1, arr[j])[0];
+          const a = arr[j];
+          const b = arr[j + 1];
+          arr[j + 1] = a;
+          arr[j] = b;
           mark = false;
-          arr[j] = arr.splice(j+1, 1, arr[j])[0];
         }
-        num += 1;
       }
-      if (mark) break;
+      if (mark) {
+        break;
+      }
     }
-
-    return {
-      arr: arr,
-      num: num
-    };
+    return arr;
   }
 
+  console.time("time");
   console.log(bubbleSort(arr));
-  console.timeEnd('time');
+  console.timeEnd("time");
 })();
