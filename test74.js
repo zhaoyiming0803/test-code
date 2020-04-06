@@ -1,49 +1,53 @@
-;(function () {
-
+(function () {
   var cityTree = [
     {
-      name: '北京市',
-      children: [{
-          name: '东城区',
-          children: [{
-            name: '雍和宫',
-            children: [{
-                name: '雍和宫地铁站'
-              },
-              {
-                name: '雍和大厦'
-              }
-            ]
-          }]
+      name: "北京市",
+      children: [
+        {
+          name: "东城区",
+          children: [
+            {
+              name: "雍和宫",
+              children: [
+                {
+                  name: "雍和宫地铁站",
+                },
+                {
+                  name: "雍和大厦",
+                },
+              ],
+            },
+          ],
         },
         {
-          name: '西城区'
+          name: "西城区",
         },
         {
-          name: '通州区',
-          children: [{
-            name: '物资学院路地铁站'
-          }]
-        }
-      ]
-    }
+          name: "通州区",
+          children: [
+            {
+              name: "物资学院路地铁站",
+            },
+          ],
+        },
+      ],
+    },
   ];
 
   function depthTraversal(tree) {
     var list = [];
-    tree.forEach(item => {
+    tree.forEach((item) => {
       list.push(item.name);
       if (Array.isArray(item.children)) {
         list = list.concat(depthTraversal(item.children));
       }
     });
     return list;
-
   }
 
-  console.time('depth');
+  console.time("depth");
   console.log(depthTraversal(cityTree));
-  console.timeEnd('depth');
+  console.timeEnd("depth");
 
   function breadthTraversal(tree) {
     var list = [];
@@ -51,12 +55,12 @@
     function next(tree) {
       var tmp = [];
 
-      tree.forEach(item => {
+      tree.forEach((item) => {
         list.push(item.name);
         tmp.push(item);
       });
 
-      tmp.forEach(item => {
+      tmp.forEach((item) => {
         if (Array.isArray(item.children)) {
           next(item.children);
         }
@@ -65,12 +69,11 @@
     next(tree);
 
     return list;
-
   }
 
-  console.time('breadth');
+  console.time("breadth");
   console.log(breadthTraversal(cityTree));
-  console.timeEnd('breadth');
+  console.timeEnd("breadth");
 
   // 深度优先算法采用栈的方式，有回溯操作，不会保留全部节点，占用空间少，但运行速度较慢。
 
