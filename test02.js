@@ -1,7 +1,7 @@
 (function () {
   function fn() {
     var a = 1;
-    return function () {
+    return function innerFn() {
       a += 1;
       return a;
     };
