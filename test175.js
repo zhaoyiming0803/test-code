@@ -30,6 +30,16 @@
 })();
 
 (function () {
+  var a = 2;
+  if (true) {
+    a(); // 222
+    function a() {
+      console.log("~~~", 222);
+    }
+  }
+})();
+
+(function () {
   // if 语句块内的函数声明不会被提升到 if 语句块外边
   // 但是 if 语句块内并没有用 let 或 const 定义变量，而 ES6 之前并没有块级作用域
   // 很奇怪...
