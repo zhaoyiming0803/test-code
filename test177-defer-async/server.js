@@ -9,10 +9,14 @@ const server = http.createServer((req, res) => {
     return;
   }
   const file = fs.readFileSync(publicPath + req.url, "utf-8");
-  if (req.url === "/1.js") {
-    setTimeout(() => {
-      res.end(file);
-    }, 1000);
+  const reg = /(\d+)\.js/;
+  const isJs = reg.test(req.url);
+  if (isJs) {
+    req.url.replace(reg, ($0, $1) => {
+      setTimeout(() => {
+        res.end(file);
+      }, $1 * 1000);
+    });
   } else {
     res.end(file);
   }
