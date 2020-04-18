@@ -1,4 +1,5 @@
-;(function () {
+(function () {
+  // https://github.com/zymfe/test-code/blob/master/test180.js
   // 为什么 [] == ![]
   // https://segmentfault.com/a/1190000008594792
   var a = [];
@@ -10,50 +11,50 @@
   console.log([] == []); // false
 })();
 
-;(function () {
+(function () {
   var a = 1;
   var b = {};
-  console.log(a+b); // 1[object Object]
+  console.log(a + b); // 1[object Object]
 
   var c = 1;
   var d = {
     // 重写 valueOf 方法
     valueOf: function () {
       return 1;
-    }
+    },
   };
-  console.log('c+d=' + (c + d));
+  console.log("c+d=" + (c + d));
 
   var e = 1;
   var f = {
     // 重写 toString 方法
     toString: function () {
       return 2;
-    }
+    },
   };
-  console.log('e+f=' + (e + f));
+  console.log("e+f=" + (e + f));
 })();
 
-;(function () {
+(function () {
   var a = 1;
   var b = {};
-  console.log(a+b); // 1[object Object]
+  console.log(a + b); // 1[object Object]
 })();
 
-;(function () {
+(function () {
   var a = 1;
   var b = [];
-  console.log(a+b); // 1
+  console.log(a + b); // 1
 
   var c = 1;
   var d = [1];
-  console.log(c+d); // "11"
+  console.log(c + d); // "11"
 
   var e = 1;
   var f = [1, 2, 3];
-  console.log(e+f); // "11,2, 3"
+  console.log(e + f); // "11,2, 3"
 
   var g = 1;
   var h = [1, 2, 3];
-  console.log(h+g); // "1, 2, 31"
+  console.log(h + g); // "1, 2, 31"
 })();
