@@ -1,4 +1,18 @@
 (function () {
+  // *****
+  // 每创建一个函数，就会同时创建它的 prototype 原型对象
+  // *****
+
+  // 本质上，构造函数和普通函数除了调用方式不同之外，没有区别
+  // 只是为了区分两者之间的作用和关系，通常构造函数名称首字母都是大写
+  function fn() {}
+  function Fn() {}
+
+  console.log(fn.prototype.constructor); // [Function: fn]
+  console.log(Fn.prototype.constructor); // [Function: Fn]
+})();
+
+(function () {
   // JavaScript高级程序设计 - 156页
   function Person() {}
 
