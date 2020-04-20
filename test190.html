@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      // 严格模式下，未指定函数对象而调用函数，则this值不会转型为window
+      // 除非明确把函数添加到某个对象或者调用 apply 或 call
+      (function (window) {
+        "use strict";
+
+        function fn1() {
+          console.log(this === window); // false
+        }
+        fn1();
+
+        function fn2() {
+          console.log(this === window);
+        }
+        fn2.call(window); // true
+
+        var obj = {};
+        function fn3() {
+          console.log(this === obj);
+        }
+        obj.fn = fn3;
+        fn3.apply(obj); // true
+      })(window);
+    </script>
+  </body>
+</html>
