@@ -1,4 +1,10 @@
 (function () {
+  /**
+   * combination inheritance
+   * 调用了两个父类，所以效率不高
+   * 而且子类的原型上会有很多不必要的父类的私有属性
+   */
+
   function SuperType(name) {
     this.name = name;
   }
