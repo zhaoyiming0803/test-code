@@ -29,6 +29,13 @@
         obj.fn = fn3;
         fn3.apply(obj); // true
       })(window);
+
+      (function (window) {
+        function fn() {
+          console.log(this === window); // true
+        }
+        fn();
+      })(window);
     </script>
   </body>
 </html>
