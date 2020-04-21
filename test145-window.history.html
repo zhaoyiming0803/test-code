@@ -1,100 +1,98 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>this is title</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+      }
+      body {
+        height: 2000px;
+      }
+      .btns {
+        display: flex;
+        width: 100%;
+        height: 100%;
+      }
+      .btn {
+        flex: 1;
+        height: 100%;
+      }
+      .left {
+        background-color: red;
+      }
+      .right {
+        background-color: blue;
+      }
+    </style>
+  </head>
 
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>this is title</title>
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-    }
-    body {
-      height: 2000px;
-    }
-    .btns {
-      display: flex;
-      width: 100%;
-      height: 100%;
-    }
-    .btn {
-      flex: 1;
-      height: 100%;
-    }
-    .left {
-      background-color: red;
-    }
-    .right {
-      background-color: blue;
-    }
-  </style>
-</head>
+  <body>
+    <div class="btns">
+      <div id="forward" class="left btn">forward</div>
+      <div id="back" class="right btn">back</div>
+    </div>
 
-<body>
-
-  <div class="btns">
-    <div id="forward" class="left btn">forward</div>
-    <div id="back" class="right btn">back</div>
-  </div>
-
-  <script>
-    ; (function (window, document) {
-      function extend(a, b) {
-        for (var key in b) {
-          a[ key ] = b[ key ];
+    <script>
+      (function (window, document) {
+        function extend(a, b) {
+          for (var key in b) {
+            a[key] = b[key];
+          }
+          return a;
         }
-        return a
-      }
 
-      const positionStore = {}
+        const positionStore = {};
 
-      // 打开新页面，退回旧页面，是浏览器执行了入栈出栈的操作
-      // 当前页面的 history.state 上可以自定义 key value，用来标记属于当前页面的某些数据或缓存
-      // 这就是 VueRouter 实现 scrollBehavior 的原理
+        // 打开新页面，退回旧页面，是浏览器执行了入栈出栈的操作
+        // 当前页面的 history.state 上可以自定义 key value，用来标记属于当前页面的某些数据或缓存
+        // 这就是 VueRouter 实现 scrollBehavior 的原理
 
-      const protocolAndPath = window.location.protocol + '//' + window.location.host
-      const absolutePath = window.location.href.replace(protocolAndPath, '')
-      const stateCopy = extend({}, window.history.state)
-      stateCopy.key = window.performance.now().toFixed(3)
-      window.history.replaceState(stateCopy, '', absolutePath)
-      
-      console.log('absolutePath: ', absolutePath)
-      console.log('stateCopy: ', stateCopy)
+        const protocolAndPath =
+          window.location.protocol + "//" + window.location.host;
+        const absolutePath = window.location.href.replace(protocolAndPath, "");
+        const stateCopy = extend({}, window.history.state);
+        stateCopy.key = window.performance.now().toFixed(3);
+        window.history.replaceState(stateCopy, "", absolutePath);
 
-      positionStore[window.history.state.key] = {
-        x: 0,
-        y: 1000
-      }
-      setTimeout(() => {
-        window.scrollTo(0, 1000)
-      });
+        console.log("absolutePath: ", absolutePath);
+        console.log("stateCopy: ", stateCopy);
 
-      window.addEventListener('popstate', e => {
-        console.log('---popState---')
-        console.log('e: ', e)
-        console.log('href: ', window.location.href)
-        console.log('---popState---')
-        const position = positionStore[window.history.state.key]
-        console.log('position: ', position)
-        if (position) {
-          window.scrollTo(position.x, position.y)
-        }
-      })
+        positionStore[window.history.state.key] = {
+          x: 0,
+          y: 1000,
+        };
+        setTimeout(() => {
+          window.scrollTo(0, 1000);
+        });
 
-      const forward = document.querySelector('#forward')
-      const back = document.querySelector('#back')
+        window.addEventListener("popstate", (e) => {
+          console.log("---popState---");
+          console.log("e: ", e);
+          console.log("href: ", window.location.href);
+          console.log("---popState---");
+          const position = positionStore[window.history.state.key];
+          console.log("position: ", position);
+          if (position) {
+            window.scrollTo(position.x, position.y);
+          }
+        });
 
-      forward.onclick = () => {
-        window.history.pushState({key: 1111}, 'new title', '?page=1')
-        window.scrollTo(0, 0)
-      }
-      
-      back.onclick = () => {
-        window.history.back()
-      }
-    })(window, document);
-  </script>
-</body>
+        const forward = document.querySelector("#forward");
+        const back = document.querySelector("#back");
 
+        forward.onclick = () => {
+          window.history.pushState({ key: 1111 }, "new title", "?page=1");
+          window.scrollTo(0, 0);
+        };
+
+        back.onclick = () => {
+          window.history.back();
+        };
+      })(window, document);
+    </script>
+  </body>
 </html>
