@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <input type="text" id="content" />
+    <button id="btn">搜索</button>
+
+    <script>
+      ~(function () {
+        function jsonp(url, callback, successCallback) {
+          let script = document.createElement("script");
+          script.src = url;
+
+          window[callback] = function (data) {
+            if (successCallback) {
+              successCallback(data);
+            } else {
+              console.log("response data: ", data);
+            }
+          };
+
+          document.body.appendChild(script);
+
+          setTimeout(() => {
+            document.body.removeChild(script);
+            script = null;
+          }, 1000);
+        }
+
+        const content = document.querySelector("#content");
+        const btn = document.querySelector("#btn");
+        btn.onclick = function () {
+          const cb = "Zepto" + Date.now();
+          jsonp(
+            "https://www.baidu.com/sugrec?pre=1&p=3&ie=utf-8&json=1&prod=pc&from=pc_web&sugsid=1461,21119,18559,29522,29720,29567,29221&wd=" +
+              content.value +
+              "&cb=" +
+              cb,
+            cb,
+            function (data) {
+              console.log("data: ", data);
+            }
+          );
+        };
+      })();
+    </script>
+  </body>
+</html>
