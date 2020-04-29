@@ -1,20 +1,22 @@
 <!DOCTYPE html>
 <html>
-<head>
-	<title></title>
-</head>
-<body>
-	<iframe src="./1.html"></iframe>
-	<iframe src="./2.html"></iframe>
+  <head>
+    <title></title>
+  </head>
+  <body>
+    <iframe src="./1.html"></iframe>
+    <iframe src="./2.html"></iframe>
 
-	<script type="text/javascript">
-		;(function (window, document) {
-
-			window.addEventListener('message', function (e) {
-				console.log(e.data);
-			}, false);
-
-		})(window, document);
-	</script>
-</body>
+    <script type="text/javascript">
+      (function (window, document) {
+        window.addEventListener(
+          "message",
+          function (e) {
+            console.log(e.data);
+          },
+          false
+        );
+      })(window, document);
+    </script>
+  </body>
 </html>
