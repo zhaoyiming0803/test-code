@@ -1,5 +1,7 @@
-;(function () {
+// https://github.com/zymfe/test-code/blob/master/test29.js
+// https://github.com/zymfe/test-code/blob/master/test207-event-loop.js
 
+(function () {
   setTimeout(function () {
     console.log(0);
   });

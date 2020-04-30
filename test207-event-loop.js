@@ -1,3 +1,6 @@
+// https://github.com/zymfe/test-code/blob/master/test29.js
+// https://github.com/zymfe/test-code/blob/master/test72.js
+
 ~(function () {
   setTimeout(() => {
     console.log("setTimeout1");
