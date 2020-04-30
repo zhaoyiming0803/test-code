@@ -42,6 +42,21 @@
     console.log("promise8");
   });
 
+  /**
+   * node version v12.16.1
+   *  script start
+      script end
+      promise1
+      promise5
+      promise7
+      promise8
+      promise2
+      promise6
+      promise3
+      promise4
+      setTimeout
+   */
+
   /*
    * Microtask 通常来说就是需要在当前 task 执行结束后立即执行的任务，例如需要对一系列的任务做出回应，或者是需要异步的执行任务而又不需要分配一个新的 task，这样便可以减小一点性能的开销。
    * microtask 任务队列是一个与 task 任务队列相互独立的队列，microtask 任务将会在每一个 task 任务执行结束之后执行。
