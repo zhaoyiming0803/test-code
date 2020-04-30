@@ -1,47 +1,59 @@
 (function () {
-  var cityTree = [
-    {
-      name: "北京市",
-      children: [
-        {
-          name: "东城区",
-          children: [
-            {
-              name: "雍和宫",
-              children: [
-                {
-                  name: "雍和宫地铁站",
-                },
-                {
-                  name: "雍和大厦",
-                },
-              ],
-            },
-          ],
-        },
-        {
-          name: "西城区",
-        },
-        {
-          name: "通州区",
-          children: [
-            {
-              name: "物资学院路地铁站",
-            },
-          ],
-        },
-      ],
-    },
-  ];
+  var cityTree = {
+    name: "北京市",
+    children: [
+      {
+        name: "东城区",
+        children: [
+          {
+            name: "雍和宫",
+            children: [
+              {
+                name: "雍和宫地铁站",
+              },
+              {
+                name: "雍和大厦",
+              },
+            ],
+          },
+        ],
+      },
+      {
+        name: "西城区",
+      },
+      {
+        name: "通州区",
+        children: [
+          {
+            name: "物资学院路地铁站",
+          },
+        ],
+      },
+    ],
+  };
+
+  function isPrimitive(obj) {
+    return Object.prototype.toString.call(obj) === "[object Object]";
+  }
 
   function depthTraversal(tree) {
-    var list = [];
-    tree.forEach((item) => {
-      list.push(item.name);
-      if (Array.isArray(item.children)) {
-        list = list.concat(depthTraversal(item.children));
-      }
-    });
+    if (typeof tree !== "object") {
+      return [];
+    }
+
+    let list = [];
+
+    if (Array.isArray(tree)) {
+      tree.forEach((item) => {
+        list.push(item.name);
+        if (Array.isArray(item.children)) {
+          list = list.concat(depthTraversal(item.children));
+        }
+      });
+    } else if (isPrimitive(tree)) {
+      list = list.concat(tree.name, depthTraversal(tree.children));
+    }
+
     return list;
   }
 
@@ -50,21 +62,24 @@
   console.timeEnd("depth");
 
   function breadthTraversal(tree) {
-    var list = [];
+    const list = [];
 
     function next(tree) {
-      var tmp = [];
-
-      tree.forEach((item) => {
-        list.push(item.name);
-        tmp.push(item);
-      });
-
-      tmp.forEach((item) => {
-        if (Array.isArray(item.children)) {
-          next(item.children);
-        }
-      });
+      if (isPrimitive(tree)) {
+        list.push(tree.name);
+        next(tree.children);
+      } else if (Array.isArray(tree)) {
+        const tmp = [];
+        tree.forEach((item) => {
+          list.push(item.name);
+          tmp.push(item);
+        });
+        tmp.forEach((item) => {
+          if (Array.isArray(item.children)) {
+            next(item.children);
+          }
+        });
+      }
     }
     next(tree);
 
