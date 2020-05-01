@@ -36,5 +36,7 @@
   };
 
   console.log(a.getAge()); // 18
+  // 寄生组合式继承其实没有解决【操作子类影响父类】的问题
+  // 如果在意这一点，用组合继承是最好的方式
   console.log(SuperType.prototype.getAge); // [Function: getAge]
 })();
