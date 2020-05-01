@@ -4,8 +4,18 @@
    * 相比组合继承，父类构造函数只调用了一次
    */
 
+  Object._create = function (obj) {
+    // function Obj() {}
+    // Obj.prototype = obj;
+    // Obj.prototype.constructor = Obj;
+    // return new Obj();
+    const _obj = {};
+    _obj.__proto__ = obj;
+    return _obj;
+  };
+
   function inhitance(Sub, Super) {
-    const prototype = Object.create(Super.prototype);
+    const prototype = Object._create(Super.prototype);
     prototype.constructor = Sub;
     Sub.prototype = prototype;
   }
