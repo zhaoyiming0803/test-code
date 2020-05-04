@@ -51,6 +51,11 @@
     return maxStr;
   }
 
+  console.time("recursive");
   console.log(getMaxSubstrByRecursive(str));
+  console.timeEnd("recursive");
+
+  console.time("unique");
   console.log(getMaxSubstrByUnique(str));
+  console.timeEnd("unique");
 })();
