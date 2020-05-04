@@ -1,7 +1,7 @@
 (function () {
   const str = "asdfgfweak";
 
-  function maxSubstr(str) {
+  function getMaxSubstrByRecursive(str) {
     const map = new Map();
     let maxStr = "";
     const length = str.length;
@@ -32,5 +32,25 @@
     return maxStr;
   }
 
-  console.log(maxSubstr(str));
+  function getMaxSubstrByUnique(str) {
+    let maxStr = "";
+    for (let i = 0; i < str.length; i++) {
+      const substr = str.slice(i);
+      const substrLen = substr.length;
+      const maxStrLen = maxStr.length;
+      if (substrLen < maxStrLen) {
+        return maxStr;
+      }
+      if (
+        Array.from(new Set(substr)).length === substrLen &&
+        substrLen > maxStrLen
+      ) {
+        maxStr = substr;
+      }
+    }
+    return maxStr;
+  }
+
+  console.log(getMaxSubstrByRecursive(str));
+  console.log(getMaxSubstrByUnique(str));
 })();
