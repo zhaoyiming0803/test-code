@@ -2,6 +2,7 @@
   // https://github.com/zymfe/test-code/blob/master/test180.js
   // 为什么 [] == ![]
   // https://segmentfault.com/a/1190000008594792
+  // 关于相等操作符，可参考《JavaScript高级程序设计》第51页
   var a = [];
   var b = ![];
   console.log(a == b); // true
@@ -44,7 +45,7 @@
 (function () {
   var a = 1;
   var b = [];
-  console.log(a + b); // 1
+  console.log(a + b); // "1"
 
   var c = 1;
   var d = [1];

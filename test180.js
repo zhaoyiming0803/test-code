@@ -1,7 +1,8 @@
 (function () {
   //github.com/zymfe/test-code/blob/master/test109.js
   // https://segmentfault.com/a/1190000008594792
-  https: var obj = {
+  // 关于相等操作符，可参考《JavaScript高级程序设计》第51页
+  var obj = {
     a: 1,
   };
   console.log(obj.valueOf() === obj); // true
@@ -16,10 +17,13 @@
   console.log(bool.valueOf() === true); // true
   console.log(bool + 1); // 2
   console.log(bool.toString()); // "true"
+
+  var arr = [1, 2];
+  console.log(arr.valueOf() === arr); // true
 })();
 
 (function () {
-  // 操作符连接对象：
+  // 操作符连接『对象』：
   // 先调用 valueOf 方法（如果有），再调用 toString() 方法（如果有）
   // 如果其原型上没有 valueOf 方法，那也不会再去调用原型链上的 valueOf 方法，会直接去调用其原型上的 toString 方法
   // 如果其原型上没有 toString 方法，那也不会再去调用原型链上的 toString 方法，而是直接返回 valueOf 后的值
@@ -44,13 +48,13 @@
 })();
 
 (function () {
-  // Boolean.prototype.valueOf = function () {
-  //   return 100;
-  // };
+  Boolean.prototype.valueOf = function () {
+    return 100;
+  };
 
-  // Boolean.prototype.toString = function () {
-  //   return 200;
-  // };
+  Boolean.prototype.toString = function () {
+    return 200;
+  };
 
   // 对于 boolean 来说，执行以下操作与 valueOf 和 toString 无关
   var a = true;
