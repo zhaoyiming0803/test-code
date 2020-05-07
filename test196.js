@@ -15,9 +15,14 @@
   };
 
   function inhitance(Sub, Super) {
-    const prototype = Object._create(Super.prototype);
-    prototype.constructor = Sub;
-    Sub.prototype = prototype;
+    // const prototype = Object._create(Super.prototype);
+    // prototype.constructor = Sub;
+    // Sub.prototype = prototype;
+
+    function Inner() {}
+    Inner.prototype = Super.prototype;
+    Inner.consructor = Inner;
+    Sub.prototype = new Inner();
   }
 
   function SuperType(name) {
@@ -43,5 +48,6 @@
   };
 
   console.log(a.getAge()); // 18
-  console.log(SuperType.prototype.getAge); // [Function: getAge]
+  // console.log(SuperType.prototype.getAge); // [Function: getAge] 不使用Inner
+  console.log(SuperType.prototype.getAge); // undefined 使用Inner
 })();
