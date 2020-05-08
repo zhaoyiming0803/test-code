@@ -1,3 +1,4 @@
+// 数组降维
 ~(function () {
   function toArray(arr) {
     const str = arr + "";
