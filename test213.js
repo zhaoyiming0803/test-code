@@ -5,10 +5,11 @@
   function deleteLeastStr(str) {
     const map = {};
     for (let i = 0; i < str.length; i++) {
-      if (!map[str[i]]) {
-        map[str[i]] = 1;
+      const sub = str[i];
+      if (!map[sub]) {
+        map[sub] = 1;
       } else {
-        map[str[i]] += 1;
+        map[sub] += 1;
       }
     }
 
@@ -24,6 +25,13 @@
     //     min = map[key];
     //   }
     // }
+
+    // let min = 0;
+    // Object.keys((key) => {
+    //   if (map[key] < min) {
+    //     min = map[key];
+    //   }
+    // });
 
     Object.keys(map).forEach((key) => {
       if (map[key] === min) {
