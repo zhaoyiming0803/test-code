@@ -18,12 +18,39 @@
 
     const min = Math.min.apply(Math, Array.from(new Set(Object.values(map))));
 
-    for (let key in map) {
+    // let min = 0;
+    // for (let key in map) {
+    //   if (map[key] < min) {
+    //     min = map[key];
+    //   }
+    // }
+
+    Object.keys(map).forEach((key) => {
       if (map[key] === min) {
         str = str.replace(new RegExp(key, "g"), ($0) => "");
       }
-    }
+    });
+
+    // for (let key in map) {
+    //   if (map[key] === min) {
+    //     str = str.replace(new RegExp(key, "g"), ($0) => "");
+    //   }
+    // }
+
     return str;
+
+    // const arr = str.split("");
+    // for (let key in map) {
+    //   if (map[key] === min) {
+    //     for (let i = 0; i < arr.length; i++) {
+    //       if (arr[i] === map[key]) {
+    //         arr.splice(i, 1);
+    //       }
+    //     }
+    //   }
+    // }
+
+    // return arr.map((item) => item).join("");
   }
   console.time("delete");
   console.log(deleteLeastStr(str));
