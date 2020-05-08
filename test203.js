@@ -10,4 +10,8 @@
   Promise.reject(222).catch((error) => {
     console.log(error);
   });
+
+  setTimeout(() => {
+    console.log(112233);
+  });
 })();
