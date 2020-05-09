@@ -83,7 +83,7 @@
         function patch(vnode) {
           var ele = createElement("div");
           ele.id = "app";
-          createEle(ele, vnode);
+          console.log(createEle(ele, vnode));
 
           var oldEle = document.querySelector("#app");
           var parentEle = oldEle.parentNode;
@@ -109,6 +109,8 @@
             vnode.on && initEvent(_ele, vnode.on);
           }
           appendChild(ele, _ele);
+
+          return _ele;
         }
 
         function createChild(ele, children) {
