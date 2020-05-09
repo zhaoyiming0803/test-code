@@ -1,139 +1,154 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta http-equiv="X-UA-Compatible" content="IE=11,IE=10,IE=9,IE=8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0"
+    />
+    <title>vnode patch</title>
+    <meta name="Keywords" content="" />
+    <meta name="Description" content="" />
+  </head>
 
-	<head>
-		<meta charset="UTF-8" />
-		<meta name="format-detection" content="telephone=no" />
-		<meta http-equiv="X-UA-Compatible" content="IE=11,IE=10,IE=9,IE=8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0" />
-		<title>vnode patch</title>
-		<meta name="Keywords" content="" />
-		<meta name="Description" content="" />
-	</head>
+  <body>
+    <div id="app"></div>
 
-	<body>
-		<div id="app"></div>
+    <script type="text/javascript">
+      (function (window, document) {
+        var vnode = {
+          tag: "div",
+          children: [
+            {
+              tag: "div",
+              text: 123,
+              on: {
+                click: function () {
+                  alert(123);
+                },
+              },
+            },
+            {
+              tag: "div",
+              children: [
+                {
+                  tag: "span",
+                  children: [
+                    {
+                      tag: "a",
+                      text: 456,
+                    },
+                  ],
+                },
+              ],
+            },
+          ],
+        };
 
-		<script type="text/javascript">
-			;(function (window, document) {
+        //				function patch (vnode) {
+        //					var el = '#app';
+        //					var newNode = createElement(vnode.tag);
+        //					newNode.id = el.substr(1);
+        //
+        //					var children = vnode.children;
+        //					if (Array.isArray(children) && children.length) {
+        //						createChild(newNode, children);
+        //					} else {
+        //						newNode.innerHTML = vnode.text;
+        //					}
+        //
+        //					var oldNode = document.querySelector(el);
+        //					var rootNode = oldNode.parentNode;
+        //					insertBefore(rootNode, newNode, oldNode);
+        //					removeChild(rootNode, oldNode);
+        //				}
+        //
+        //				function createChild (parent, vnodes) {
+        //					for (var i = 0, len = vnodes.length; i < len; i += 1) {
+        //						var curNode = vnodes[i];
+        //						var ele = createElement(curNode.tag);
+        //						var curNodeChildren = curNode.children;
+        //						if (Array.isArray(curNodeChildren) && curNodeChildren.length) {
+        //							createChild(ele, curNodeChildren);
+        //						} else {
+        //							curNode.text && initContent(ele, curNode.text);
+        //							curNode.on && initEvent(ele, curNode.on);
+        //						}
+        //						appendChild(parent, ele);
+        //					}
+        //				}
 
-				var vnode = {
-					tag: 'div',
-					children: [{
-							tag: 'div',
-							text: 123,
-							on: {
-								click: function () {
-									alert(123);
-								}
-							}
-						},
-						{
-							tag: 'div',
-							children: [{
-								tag: 'span',
-								children: [{
-									tag: 'a',
-									text: 456
-								}]
-							}]
-						}
-					]
-				};
+        function patch(vnode) {
+          var ele = createElement("div");
+          ele.id = "app";
+          createEle(ele, vnode);
 
-				//				function patch (vnode) {
-				//					var el = '#app';
-				//					var newNode = createElement(vnode.tag);
-				//					newNode.id = el.substr(1);
-				//					
-				//					var children = vnode.children;
-				//					if (Array.isArray(children) && children.length) {
-				//						createChild(newNode, children);	
-				//					} else {
-				//						newNode.innerHTML = vnode.text;
-				//					}
-				//
-				//					var oldNode = document.querySelector(el);
-				//					var rootNode = oldNode.parentNode;
-				//					insertBefore(rootNode, newNode, oldNode);
-				//					removeChild(rootNode, oldNode);
-				//				}
-				//
-				//				function createChild (parent, vnodes) {
-				//					for (var i = 0, len = vnodes.length; i < len; i += 1) {
-				//						var curNode = vnodes[i];
-				//						var ele = createElement(curNode.tag);
-				//						var curNodeChildren = curNode.children;
-				//						if (Array.isArray(curNodeChildren) && curNodeChildren.length) {
-				//							createChild(ele, curNodeChildren);
-				//						} else {
-				//							curNode.text && initContent(ele, curNode.text);
-				//							curNode.on && initEvent(ele, curNode.on);
-				//						}
-				//						appendChild(parent, ele);
-				//					}
-				//				}
+          var oldEle = document.querySelector("#app");
+          var parentEle = oldEle.parentNode;
+          insertBefore(parentEle, ele, oldEle);
+          removeChild(parentEle, oldEle);
+        }
 
-				function patch(vnode) {
-					var ele = createElement('div');
-					ele.id = 'app';
-					createEle(ele, vnode);
+        function createEle(ele, vnode) {
+          // vnode.ele = createElement(vnode.tag);
+          // if (Array.isArray(vnode.children) && vnode.children.length) {
+          //   createChild(vnode.ele, vnode.children);
+          // } else {
+          //   vnode.text && initContent(vnode.ele, vnode.text);
+          //   vnode.on && initEvent(vnode.ele, vnode.on);
+          // }
+          // appendChild(ele, vnode.ele);
 
-					var oldEle = document.querySelector('#app');
-					var parentEle = oldEle.parentNode;
-					insertBefore(parentEle, ele, oldEle);
-					removeChild(parentEle, oldEle);
-				}
+          const _ele = createElement(vnode.tag);
+          if (Array.isArray(vnode.children) && vnode.children.length) {
+            createChild(_ele, vnode.children);
+          } else {
+            vnode.text && initContent(_ele, vnode.text);
+            vnode.on && initEvent(_ele, vnode.on);
+          }
+          appendChild(ele, _ele);
+        }
 
-				function createEle(ele, vnode) {
-					vnode.ele = createElement(vnode.tag);
-					if (Array.isArray(vnode.children) && vnode.children.length) {
-						createChild(vnode.ele, vnode.children);
-					} else {
-						vnode.text && initContent(vnode.ele, vnode.text);
-						vnode.on && initEvent(vnode.ele, vnode.on);
-					}
-					appendChild(ele, vnode.ele);
-				}
+        function createChild(ele, children) {
+          for (var i = 0, len = children.length; i < len; i += 1) {
+            createEle(ele, children[i]);
+          }
+        }
 
-				function createChild(ele, children) {
-					for (var i = 0, len = children.length; i < len; i += 1) {
-						createEle(ele, children[i]);
-					}
-				}
+        function createElement(tag) {
+          return document.createElement(tag);
+        }
 
-				function createElement(tag) {
-					return document.createElement(tag);
-				}
+        function appendChild(parent, children) {
+          parent.appendChild(children);
+        }
 
-				function appendChild(parent, children) {
-					parent.appendChild(children);
-				}
+        function insertBefore(parentNode, newNode, referenceNode) {
+          parentNode.insertBefore(newNode, referenceNode);
+        }
 
-				function insertBefore(parentNode, newNode, referenceNode) {
-					parentNode.insertBefore(newNode, referenceNode);
-				}
+        function removeChild(node, child) {
+          node.removeChild(child);
+        }
 
-				function removeChild(node, child) {
-					node.removeChild(child);
-				}
+        function initContent(node, html) {
+          node.innerHTML = html;
+        }
 
-				function initContent(node, html) {
-					node.innerHTML = html;
-				}
+        function initEvent(node, event) {
+          for (var prop in event) {
+            if (event.hasOwnProperty(prop)) {
+              node["on" + prop] = event[prop];
+            }
+          }
+        }
 
-				function initEvent(node, event) {
-					for (var prop in event) {
-						if (event.hasOwnProperty(prop)) {
-							node['on' + prop] = event[prop];
-						}
-					}
-				}
+        patch(vnode);
 
-				patch(vnode);
-
-			})(this, document);
-		</script>
-	</body>
-
+        console.log(vnode);
+      })(this, document);
+    </script>
+  </body>
 </html>
