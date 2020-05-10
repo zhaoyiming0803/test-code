@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      .inner {
+        width: 100px;
+        height: 100px;
+        float: left;
+      }
+
+      .red {
+        background-color: red;
+      }
+
+      .blue {
+        background-color: blue;
+      }
+
+      .box1 {
+        margin-bottom: 100px;
+        background-color: orange;
+      }
+
+      .box1::after {
+        content: "";
+        display: block;
+        height: 0;
+        clear: both;
+      }
+
+      .box2 {
+        background-color: orange;
+        /* display: flex; */
+        overflow: hidden;
+        /* 其他的BFC特性也可以用于清除浮动 */
+      }
+    </style>
+  </head>
+  <body>
+    <!-- 使用伪元素和clear:both清除浮动 -->
+    <div class="box1">
+      <div class="inner red"></div>
+      <div class="inner blue"></div>
+    </div>
+
+    <!-- 将外部盒子添加BFC特性清除浮动 -->
+    <div class="box2">
+      <div class="inner red"></div>
+      <div class="inner blue"></div>
+    </div>
+  </body>
+</html>
