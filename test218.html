@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      td {
+        border: 1px solid red;
+        height: 100px;
+        width: 100px;
+      }
+
+      .box {
+        display: table;
+        width: 200px;
+        height: 300px;
+        background-color: red;
+        color: white;
+      }
+      /* table-cell 子元素默认占据父元素盒子的全部高度和宽度 */
+      .box .content {
+        display: table-cell;
+        width: 50%;
+        vertical-align: middle;
+        text-align: center;
+        background-color: blue;
+      }
+    </style>
+  </head>
+  <body>
+    <table cellpadding="0" cellspacing="0">
+      <tr>
+        <td>1</td>
+        <td>2</td>
+        <td>3</td>
+      </tr>
+    </table>
+
+    <div class="box">
+      <div class="content">1</div>
+      <div class="content">2</div>
+    </div>
+  </body>
+</html>
