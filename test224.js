@@ -1,15 +1,32 @@
 ;(function () {
 
-  const str = '搜附近舒服sd{123sd收到123}水电费水电费sd1'
+  const arr = [
+    {
+      text: '啊{123}不'
+    },
+    {
+      text: '不{456}啊'
+    }
+  ]
 
-  const newStr = str.replace(/(.*)\{(.*)\}(.*)/, ($0, $1, $2, $3) => {
-    console.log('$1: ', $1)
-    console.log('$2: ', $2)
-    console.log('$3: ', $3)
-
-    return $1 + `<div>${$2}</div>` + $3
+  const newArr = arr.map(item => {
+    const regRes = item.text.match(/\{([\S\s]+)\}/)
+    console.log('regRes: ', regRes)
+    if (!regRes) {
+      return {
+        left: item.text,
+        center: '',
+        right: ''
+      }
+    } else {
+      return {
+        left: item.text.slice(0, regRes.index),
+        center: regRes[1],
+        right: item.text.slice(regRes.index + regRes[0].length)
+      }
+    }
   })
 
-  console.log(newStr)
+  console.log(newArr)
 
 })();
