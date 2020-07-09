@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <div id="app"></div>
+
+  <script src="https://cdn.bootcdn.net/ajax/libs/vue/2.6.11/vue.min.js"></script>
+  <script>
+    ;(function (window, document, Vue) {
+      const printTestObject = {
+        install (Vue) {
+          Vue.mixin({
+            methods: {
+              printTestObject () {
+                alert(this.$options.test && this.$options.test.c || 'this.$options.test is not defined')
+              }
+            }
+          })
+        }
+      }
+
+      Vue.use(printTestObject)
+
+      Vue.config.optionMergeStrategies.test = function (toVal, fromVal) {
+        return Object.assign({}, toVal, fromVal)
+      }
+
+      const ComponentC = Vue.extend({
+        template: '<div @click="printTestObject">ComponentC</div>',
+        test: {
+          c: 'c'
+        },
+        created () {
+          this.haha = 123
+          console.log('C $options: ', this)
+        },
+        methods: {
+          alertC () {
+            alert('this is C component')
+          }
+        }
+      })
+
+      const ComponentA = Vue.extend({
+        components: {
+          ComponentC
+        },
+        template: '<div>ComponentA<ComponentC /></div>',
+        test: {
+          a: 1,
+          b: 2
+        },
+        created () {
+          console.log('A $options: ', this.$options)
+        }
+      })
+
+      const ComponentB = Vue.extend({
+        template: '<div>ComponentB</div>',
+        test: {
+          a: 3,
+          b: 4
+        },
+        created () {
+          console.log('B $options: ', this.$options)
+        }
+      })
+
+      const App = Vue.extend({
+        components: {
+          ComponentA,
+          ComponentB
+        },
+        template: '<div><ComponentA /><ComponentB /></div>'
+      })
+
+      const vm = new Vue({
+        el: '#app',
+        render: h => h(App)
+      })
+      console.log(vm)
+    })(window, document, Vue);
+  </script>
+</body>
+</html>
