@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>test box shadown</title>
+	<style type="text/css">
+		.box {
+			width: 300px;
+			height: 300px;
+			/*box-shadow: 10px 0px 10px -10px red, -10px 0 10px -10px red;*/ /*两边*/
+			box-shadow: 10px 0px 10px -10px red/*右*/, -10px 0 10px -10px red,/*左*/ 0 -10px 10px -10px red/*上*/;
+			border-radius: 10px;
+		}
+	</style>
+</head>
+<body>
+	<div class="box"></div>
+</body>
+</html>
