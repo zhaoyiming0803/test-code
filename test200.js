@@ -1,5 +1,5 @@
 (function () {
-  var url = "https://github.com/zymfe?a=1&b=2&c=3";
+  var url = "https://github.com/zhaoyiming0803?m=你好啊";
 
   function getQueryBySplit(url) {
     var query = {};
@@ -19,7 +19,7 @@
 
   function getQueryByRegExp(url) {
     var query = {};
-    var reg = /[\?\&]?(\w+)=(\w+)&?/gim;
+    var reg = /[\?\&]?(\w+)=(.*)&?/gim;
     url.replace(reg, ($0, $1, $2) => {
       query[$1] = $2;
     });

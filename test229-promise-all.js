@@ -8,6 +8,7 @@
     setTimeout(() => reject('p2'), 1000)
   })
 
+  // 特殊需求，就算某个promise返回reject，也要返回最终所有的结果
   function promiseAll (arr) {
     const result = []
     let j = 0
