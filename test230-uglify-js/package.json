@@ -9,6 +9,6 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "uglify-js": "1.2.5"
+    "uglify-js": "3.10.1"
   }
 }
