@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <div id="app"></div>
+
+  <script src="./node_modules/vue/dist/vue.js"></script>
+
+  <script>
+    ;(function (window, document, Vue) {
+      Vue.use({
+        install: function (Vue) {
+          console.log('timestamp: ', this.timestamp)
+        },
+        timestamp: Date.now()
+      })
+
+      Vue.mixin({
+        data: function () {
+          // 根据 data 的合并策略，a和b并不会覆盖组件中对应的a和b，组件中的 data 优先级更高
+          return {
+            a: 1000,
+            b: 2000
+          }
+        }
+      })
+
+      const ChildComponent = Vue.extend({
+        template: '<span>ChildComponent: {{a + b}}</span>',
+        mixins: [{
+          data: function () {
+            // 根据 data 的合并策略，a和b并不会覆盖组件中对应的a和b
+            return {
+              a: 1,
+              b: 2
+            }
+          }
+        }],
+        data: function () {
+          return {
+            a: 100,
+            b: 200
+          }
+        }
+      })
+
+      new Vue({
+        el: '#app',
+        data: function () {
+          return {
+            a: 1,
+            b: 2,
+            list: [1, 2, 3, 4]
+          }
+        },
+        components: {
+          ChildComponent
+        },
+        template: `
+          <div>
+            <h1>this is title</h1>
+            <div>
+              <button @click="changeA">change number a</button>
+              <span>a+b = {{a+b}}</span>
+            </div>
+            <ChildComponent></ChildComponent>
+            <!-- v-for 比 v-if 的优先级高，genFor 中继续执行 genElement，然后再执行到 genIf -->
+            <div v-if="2>1" v-for="(v, k) in list" :key="k">{{v}}</div>
+          </div>
+        `,
+        methods: {
+          changeA: function () {
+            this.a = Date.now()
+          }
+        }
+      })
+    })(window, document, Vue);
+  </script>
+
+  <script>
+    ;(function (window, document) {
+      var obj = {
+        a: 10000,
+        b: 20000,
+        _s: function (val) {
+          return val == null
+            ? ''
+            : String(val)
+        }
+      }
+      function render () {
+        with (this) {
+          return _s(a+b)
+        }
+      }
+      console.log('render: ', render.call(obj))
+    })(window, document);
+  </script>
+</body>
+</html>

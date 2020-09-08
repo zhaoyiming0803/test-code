@@ -1,0 +1,25 @@
+{
+  "name": "test-code",
+  "version": "1.0.0",
+  "description": "随笔代码，算法、设计模式、思路......想到哪里写到哪里！",
+  "dependencies": {
+    "miniprogram-ci": "^1.0.51",
+    "uglify-js": "^3.10.1"
+  },
+  "devDependencies": {
+    "vue": "^2.6.12"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/zhaoyiming0803/test-code.git"
+  },
+  "author": "zhaoyiming0803@gmail.com",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/zhaoyiming0803/test-code/issues"
+  },
+  "homepage": "https://github.com/zhaoyiming0803/test-code#readme"
+}
