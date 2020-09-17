@@ -6,9 +6,12 @@
   <title>Document</title>
 </head>
 <body>
-  <div id="app"></div>
+  <div id="app">
+    
+  </div>
 
   <script src="./node_modules/vue/dist/vue.js"></script>
+  <script src="./node_modules/vue-router/dist/vue-router.js"></script>
 
   <script>
     ;(function (window, document, Vue) {
@@ -48,8 +51,47 @@
         }
       })
 
-      new Vue({
+      const indexPage = Vue.extend({
+        template: `<div>
+          <button @click="toListPage" id="toListPage">to listPage</button>  
+        </div>`,
+        methods: {
+          toListPage () {
+            this.$router.push({
+              path: '/list'
+            })
+          }
+        },
+        beforeDestroy () {
+          console.log('index page beforeDestroy')
+        },
+        deactivated () {
+          console.log('index page deactivated')
+        }
+      })
+
+      const listPage = Vue.extend({
+        template: '<span>listPage</span>',
+        beforeDestroy () {
+          console.log('list page beforeDestroy')
+        },
+        deactivated () {
+          console.log('list page deactivated')
+        }
+      })
+
+      Vue.use(VueRouter)
+
+      const router = new VueRouter({
+        routes: [
+          { path: '/index', component: indexPage },
+          { path: '/list', component: listPage },
+        ]
+      })
+
+      const app = window.app = new Vue({
         el: '#app',
+        router,
         data: function () {
           return {
             a: 1,
@@ -67,17 +109,27 @@
               <button @click="changeA">change number a</button>
               <span>a+b = {{a+b}}</span>
             </div>
-            <ChildComponent></ChildComponent>
+            <ChildComponent ref="child"></ChildComponent>
             <!-- v-for 比 v-if 的优先级高，genFor 中继续执行 genElement，然后再执行到 genIf -->
             <div v-if="2>1" v-for="(v, k) in list" :key="k">{{v}}</div>
+            <keep-alive>
+              <router-view></router-view>  
+            </keep-alive>
           </div>
         `,
+        mounted () {
+          console.log('child: ', this.$refs.child)
+        },
         methods: {
           changeA: function () {
             this.a = Date.now()
           }
         }
       })
+
+      setTimeout(() => {
+        // document.querySelector('#toListPage').click()
+      }, 3000)
     })(window, document, Vue);
   </script>
 
