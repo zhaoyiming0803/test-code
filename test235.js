@@ -13,17 +13,18 @@
     }]
   }
 
-  function genElement (node) {
-    return `_c(${node.tag})`
+  function genNode (node) {
+    return node ? genElement(node) : '_c("div")'
   }
 
-  function genNode (node) {
-    let exp = ''
-    if (Array.isArray(node.children)) {
-      exp += genChildren(node.children)
-    }
-    exp += genElement(node)
-    return exp
+  function genElement (node) {
+    return '_c(' + node.tag + (node.children ? (',' + genChildren(node.children)) : '') + ')' 
+  }
+
+  function genChildren (children) {
+    return Array.isArray(children)
+      ? '[' + children.map(child => genNode(child)).join(',') + ']'
+      : ''
   }
 
   console.log(genNode(ast))
