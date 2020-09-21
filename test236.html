@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    .wrapper {
+      position: fixed;
+      top: 0;
+      left: 100px;
+      width: 100px;
+      height: 100px;
+      background-color: red;
+    }
+
+    .wrapper.move {
+      animation: move 3s linear 0s;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    .icon {
+      position: fixed;
+      top: 100px;
+      left: 0;
+      width: 30px;
+      height: 30px;
+      background-color: blue;
+    }
+
+    @keyframes move {
+      0% {
+        top: 0;
+        left: 100px;
+        width: 100px;
+        height: 100px;
+      }
+      50% {
+        top: 50px;
+        left: 50px;
+        width: 65px;
+        height: 65px;
+      }
+      100% {
+        top: 100px;
+        left: 0px;
+        width: 30px;
+        height: 30px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrapper" id="wrapper"></div>
+  <div class="icon hidden" id="icon"></div>
+
+  <script>
+    ;(function (window, document) {
+      var wrapper = document.querySelector('#wrapper')
+      var icon = document.querySelector('#icon')
+      var mark = true
+
+      document.documentElement.onclick = function onClickBody () {
+        if (!mark) {
+          return
+        }
+        mark = false
+        wrapper.classList.add('move')
+        var timer = setTimeout(function () {
+          wrapper.classList.add('hidden')
+          icon.classList.remove('hidden')
+          wrapper.classList.remove('move')
+          clearTimeout(timer)
+          timer = null
+        }, 2900)
+      }
+    })(window, document);
+  </script>
+</body>
+</html>
