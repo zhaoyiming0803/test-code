@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title></title>
+  <style type="text/css">
+    #wrapper {
+      width: 100px;
+      background: blue;
+      transition: height 1s;
+    }
+    .show {
+      height: 100px;
+    }
+    .hide {
+      height: 0;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="wrapper" class="hide"></div>
+
+  <button id="button">按钮</button>
+
+  <script type="text/javascript">
+    var button = document.querySelector('#button')
+    var wrapper = document.querySelector('#wrapper')
+    var display = false
+
+    button.onclick = function () {
+      display = !display
+      if (display) {
+        wrapper.classList.remove('hide')
+        wrapper.classList.add('show')
+      } else {
+        wrapper.classList.remove('show')
+        wrapper.classList.add('hide')
+      }
+    }
+  </script>
+
+</body>
+
+</html>
