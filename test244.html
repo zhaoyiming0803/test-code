@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    .box{
+      /* 最外层的盒子 */
+      width:200px;
+      height:200px;
+      margin: 0 auto;
+      position: relative;
+      overflow: hidden;
+      border-radius: 50%;
+      background-color: pink;
+    }
+    .left_box,.right_box{
+      /* 
+        左右两边用于 隐藏 旋转的div的盒子 
+        通过overflow来隐藏内部div旋转出去的部分
+      */
+      position: absolute;
+      top: 0;
+      width:100px;
+      height:200px;
+      overflow: hidden;
+      z-index: 1;
+    }
+    .left_box{
+      left: 0;
+    }
+    .right_box{
+      right: 0;
+    }
+    .left_item,.right_item{
+      width: 100px;
+      height: 200px;
+    }
+    .left_item{
+      border-top-left-radius: 100px;
+      border-bottom-left-radius: 100px;
+      -webkit-transform-origin: right center;
+      transform-origin: right center;
+      -webkit-animation: loading_left 3s linear;
+      background-color: red;
+      animation-fill-mode: forwards;
+    }
+    .right_item{
+      border-top-right-radius: 100px;
+      border-bottom-right-radius: 100px;
+      -webkit-transform-origin: left center;
+      transform-origin: left center;
+      animation: loading_right 3s linear;
+      background-color: red;
+      animation-fill-mode: forwards;
+    }
+    .mask{
+      /* 遮住div多余的部分，呈现出线条的效果 */
+      position: absolute;
+      top: 15px;
+      left: 15px;
+      right: 15px;
+      bottom: 15px;
+      z-index: 2;
+      border-radius: 50%;
+      background-color: #fff;
+    }
+    @-webkit-keyframes loading_left{
+        0%{
+            -webkit-transform: rotate(0deg);
+        }
+        50%{
+            -webkit-transform: rotate(0deg);
+        }
+        100%{
+            -webkit-transform: rotate(180deg);
+        }
+    }
+    @-webkit-keyframes loading_right{
+        0%{
+          -webkit-transform: rotate(0deg);
+        }
+        50%{
+          -webkit-transform: rotate(180deg);
+        }
+        100%{
+          -webkit-transform: rotate(180deg);
+        }
+    }
+  </style>
+</head>
+<body>
+  <div class="box">
+    <div class="left_box">
+      <div class="left_item"></div>
+    </div>
+    <div class="right_box">
+      <div class="right_item"></div>
+    </div>
+    <div class="mask"></div>
+  </div>
+</body>
+</html>

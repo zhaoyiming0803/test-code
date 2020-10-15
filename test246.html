@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    .circle {
+      -webkit-mask: radial-gradient(transparent 150px, #000 150px);
+      width: 400px;
+      height: 400px;
+      overflow: hidden;
+      border-radius: 50%;
+      position: relative;
+    }
+
+    .circle-left {
+      width: 50%;
+      height: 100%;
+      background: #24B39B;
+      transform-origin: 100% 50%;
+      position: absolute;
+      left: 0;
+      z-index: 0;
+    }
+
+    .circle-right {
+      width: 50%;
+      height: 100%;
+      background: #24B39B;
+      transition: transform 1s linear;
+      transform-origin: 0% 50%;
+      position: absolute;
+      right: 0;
+      z-index: 2;
+    }
+
+    .circle-bottom-left {
+      width: 50%;
+      height: 100%;
+      background: rgb(234, 67, 15);
+      position: absolute;
+      left: 0;
+      z-index: -1;
+    }
+
+    .circle-bottom-right {
+      width: 50%;
+      height: 100%;
+      background: rgb(234, 67, 15);
+      position: absolute;
+      right: 0;
+      z-index: 1;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="circle">
+    <div class="circle-left"></div>
+    <div class="circle-right"></div>
+    <div class="circle-bottom-left"></div>
+    <div class="circle-bottom-right"></div>
+  </div>
+
+  <script>
+    window.onload = function () {
+      var red = 4500, total = 5000 //红色区域代表的金额和总金额
+      var percent = red / total
+      var right = document.getElementsByClassName('circle-right')[0]
+      var left = document.getElementsByClassName('circle-left')[0]
+      if (percent <= 0.5) {  //红色区域不超过一半
+        right.style.transform = `rotate(${percent * 360}deg)`
+      } else {    //红色区域超过一半的情况，重点部分
+        right.style.transform = `rotate(180deg)`
+        right.style.transition = `opacity 0s step-end 1s, transform 1s linear` //timing-function需要设为linear来达到视觉上的平缓过渡
+        right.style.opacity = 0
+
+        left.style.transition = `transform ${(percent - 0.5) / 0.5}s linear 1s`
+        left.style.transform = `rotate(${percent * 360 - 180}deg)`
+      }
+    }
+  </script>
+</body>
+</html>
