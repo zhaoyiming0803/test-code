@@ -11,7 +11,9 @@
 
   SuperType.prototype.getName = function getName() {
     return this.name;
-  };
+  }
+
+  SuperType.prototype.test = {}
 
   function SubType(name, age) {
     SuperType.call(this, name);
@@ -34,4 +36,7 @@
   console.log(a.getAge());
   console.log(b.getAge());
   console.log(SuperType.prototype.getAge); // undefined
+
+  SubType.prototype.test.a = 123
+  console.log(a.test)
 })();
