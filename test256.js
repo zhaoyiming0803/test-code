@@ -1,9 +1,10 @@
 ;(function () {
 
-  const arr = [1, 2, 3, 4, 5, 6, 7, 8]
+  const arr = [5, 1, 2, 3, 8, 4,  6, 7]
   const target = 7
 
   function sum (arr, target) {
+    arr = arr.sort((a, b) => a - b)
     const res = []
     let left = 0
     let right = arr.length - 1
